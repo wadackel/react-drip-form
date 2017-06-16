@@ -1,0 +1,39 @@
+declare module 'invariant' {
+  declare export default any;
+}
+
+declare module 'lodash.isequal' {
+  declare export default function isEqual(a: any, b: any): boolean;
+}
+
+declare module 'lodash.isplainobject' {
+  declare export default function isPlainObject(o: any): boolean;
+}
+
+declare module 'lodash.omitby' {
+  declare export default function omitBy(o: any, f: (v: any, k?: any) => boolean): any;
+}
+
+declare module 'dot-wild' {
+  declare export function get(data: any, key: string, value: any): any;
+  declare export function set(data: any, key: string, value: any): any;
+  declare export function remove(data: any, key: string): any;
+  declare export function map(data: any, key: string, itratee: Function): any[];
+  declare export function forEach(data: any, key: string, itratee: Function): void;
+  declare export function tokenize(key: string): string[];
+  declare export function escapePath(key: string): string;
+  declare export function buildPath(array: any[]): string;
+  declare export function matchPath(keyA: string, keyB: string): boolean;
+}
+
+declare module 'throttle-debounce/throttle' {
+  declare export default function throttle<T>(delay: number, noTrailing: boolean, callback: T, debounceMode: boolean): T;
+}
+
+declare module 'throttle-debounce/debounce' {
+  declare export default any;
+}
+
+declare module 'drip-form-validator' {
+  declare export var Validator: any;
+}

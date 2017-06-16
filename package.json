@@ -1,0 +1,88 @@
+{
+  "name": "react-drip-form",
+  "version": "0.0.1",
+  "description": "React forms state manager. powerfully supports validation and normalization.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
+    "test": "npm run test:lint && npm run test:typecheck && npm run test:unit",
+    "test:watch": "npm run test:unit -- --watch",
+    "test:lint": "eslint \"src/**/*.js\" --ignore-pattern \"node_modules\"",
+    "test:typecheck": "flow",
+    "test:unit": "jest",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-component",
+    "form",
+    "form-validation",
+    "form-normalize",
+    "validation",
+    "normalize",
+    "higher order component",
+    "hoc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsuyoshiwada/react-drip-form.git"
+  },
+  "author": "tsuyoshiwada",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsuyoshiwada/react-drip-form/issues"
+  },
+  "homepage": "https://github.com/tsuyoshiwada/react-drip-form#readme",
+  "files": [
+    "lib",
+    "test"
+  ],
+  "peerDependencies": {
+    "react": ">=15.3.0",
+    "react-dom": ">=15.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-loader": "^7.0.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-power-assert": "^1.0.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "enzyme": "^2.8.2",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jest": "^20.0.3",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "flow-bin": "^0.47.0",
+    "jest": "^20.0.4",
+    "react": "^15.5.4",
+    "react-addons-test-utils": "^15.5.1",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4"
+  },
+  "dependencies": {
+    "dot-wild": "^2.2.2",
+    "drip-form-validator": "^0.0.1",
+    "invariant": "^2.2.2",
+    "lodash.isequal": "^4.5.0",
+    "lodash.isplainobject": "^4.0.6",
+    "lodash.omitby": "^4.6.0",
+    "prop-types": "^15.5.10"
+  },
+  "jest": {
+    "rootDir": "src",
+    "testMatch": [
+      "**/?(*.)spec.js"
+    ]
+  }
+}
