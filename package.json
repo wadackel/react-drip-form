@@ -4,14 +4,14 @@
   "description": "React forms state manager. powerfully supports validation and normalization.",
   "main": "lib/index.js",
   "scripts": {
-    "build": "npm run build:babel && npm run build:copy",
-    "build:babel": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
-    "build:copy": "cpx \"lib/**/*.js\" docs/lib",
+    "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
     "test": "npm run test:lint && npm run test:typecheck && npm run test:unit",
     "test:watch": "npm run test:unit -- --watch",
     "test:lint": "eslint \"src/**/*.js\"",
     "test:typecheck": "flow",
     "test:unit": "jest",
+    "test:coverage": "npm run test:unit -- --coverage",
+    "codecov": "codecov",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -56,7 +56,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.24.1",
-    "cpx": "^1.5.0",
+    "codecov": "^2.2.0",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",

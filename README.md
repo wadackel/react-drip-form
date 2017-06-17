@@ -1,6 +1,7 @@
 # react-drip-form
 
 [![Build Status](http://img.shields.io/travis/tsuyoshiwada/react-drip-form.svg?style=flat-square)](https://travis-ci.org/tsuyoshiwada/react-drip-form)
+[![Codecov](https://img.shields.io/codecov/c/github/tsuyoshiwada/react-drip-form.svg?style=flat-square)](https://codecov.io/gh/tsuyoshiwada/react-drip-form)
 [![npm version](https://img.shields.io/npm/v/react-drip-form.svg?style=flat-square)](http://badge.fury.io/js/react-drip-form)
 
 > React forms state manager. powerfully supports validation and normalization.
