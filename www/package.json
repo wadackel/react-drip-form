@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "fs-extra": "^3.0.1",
+    "gatsby": "next",
+    "gatsby-link": "next",
+    "gatsby-plugin-catch-links": "next",
+    "gatsby-plugin-nprogress": "next",
+    "gatsby-plugin-sharp": "next",
+    "gatsby-remark-autolink-headers": "next",
+    "gatsby-remark-copy-linked-files": "next",
+    "gatsby-remark-prismjs": "next",
+    "gatsby-remark-responsive-iframe": "next",
+    "gatsby-remark-responsive-image": "next",
+    "gatsby-remark-smartypants": "next",
+    "gatsby-source-filesystem": "next",
+    "gatsby-transformer-documentationjs": "next",
+    "gatsby-transformer-remark": "next",
+    "gatsby-transformer-sharp": "next",
+    "gatsby-transformer-yaml": "next",
+    "lodash": "^4.17.4",
+    "parse-filepath": "^1.0.1",
+    "react-helmet": "^5.1.3",
+    "slash": "^1.0.0"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.0.0"
+  }
+}
