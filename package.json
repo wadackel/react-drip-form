@@ -11,7 +11,7 @@
     "test:typecheck": "flow",
     "test:unit": "jest",
     "test:coverage": "npm run test:unit -- --coverage",
-    "codecov": "codecov",
+    "codecov": "npm run test:coverage && codecov",
     "prepublish": "npm run build"
   },
   "keywords": [
