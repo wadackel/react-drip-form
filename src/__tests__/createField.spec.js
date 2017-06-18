@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import createField from '../createField';
+import dripFormField from '../dripFormField';
 
 
 const mockEvent = (params = {}) => ({
@@ -30,7 +30,7 @@ const mockContext = (context = {}) => ({
 });
 
 const mockComponent = (WrappedComponent, options = {}) => (
-  createField(options)(WrappedComponent)
+  dripFormField(options)(WrappedComponent)
 );
 
 const mockRender = (useShallow, WrappedComponent, props = {}, context, options = {}) => {
@@ -50,7 +50,7 @@ const mockMount = (WrappedComponent, props = {}, context = {}, options = {}) => 
 );
 
 
-describe('createField()', () => {
+describe('dripFormField()', () => {
   test('Should be create field', () => {
     const wrapper = mockShallow(() => (
       <div>Field</div>

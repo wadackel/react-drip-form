@@ -1,7 +1,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import createForm from '../createForm';
+import dripForm from '../dripForm';
 
 
 const mockField = (name, props = {}, initialValue = null) => ({
@@ -14,7 +14,7 @@ const mockField = (name, props = {}, initialValue = null) => ({
 });
 
 const mockComponent = (WrappedComponent, options = {}, methods = {}) => {
-  const Component = createForm(options)(WrappedComponent);
+  const Component = dripForm(options)(WrappedComponent);
 
   Object.keys(methods).forEach((method) => {
     Component.prototype[method] = methods[method];
@@ -34,7 +34,7 @@ const mockEvent = () => ({
 });
 
 
-describe('createForm()', () => {
+describe('dripForm()', () => {
   test('Should be create form', () => {
     const wrapper = mockShallow(() => (
       <div>Form</div>

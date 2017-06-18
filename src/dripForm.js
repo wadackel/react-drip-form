@@ -27,7 +27,7 @@ import type {
 import type {
   Props as FieldProps,
   State as FieldState,
-} from './createField';
+} from './dripFormField';
 
 type FieldComponent = React$Component<FieldProps, FieldProps, FieldState>;
 
@@ -73,7 +73,7 @@ export type State = {
   dirties: string[];
 };
 
-const createForm = (formOptions: FormOptions = {}) => {
+const dripForm = (formOptions: FormOptions = {}) => {
   const options = {
     ...defaultFormOptions,
     ...formOptions,
@@ -695,4 +695,4 @@ const createForm = (formOptions: FormOptions = {}) => {
 };
 
 
-export default createForm;
+export default dripForm;

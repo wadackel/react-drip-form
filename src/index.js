@@ -1,3 +1,4 @@
 // @flow
-export { default as createField } from './createField';
-export { default as createForm } from './createForm';
+export { Validator } from 'drip-form-validator';
+export { default as dripFormField } from './dripFormField';
+export { default as dripForm } from './dripForm';

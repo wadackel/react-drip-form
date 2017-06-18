@@ -57,7 +57,7 @@ const getPropsValue = (props: Props, defaultValue: any): any => (
   hasProp(props, 'value') ? props.value : defaultValue
 );
 
-const createField = (fieldOptions: FieldOptions = {}) => {
+const dripFormField = (fieldOptions: FieldOptions = {}) => {
   const options: FieldOptions = {
     ...defaultFieldOptions,
     ...fieldOptions,
@@ -90,7 +90,7 @@ const createField = (fieldOptions: FieldOptions = {}) => {
         super(props, context);
 
         if (!hasProp(context, 'dripForm')) {
-          invariant(false, 'Field component must be inside a Drip Form component (`createForm()` HOC).');
+          invariant(false, 'Field component must be inside a Drip Form component (`dripForm()` HOC).');
         } else {
           context.register(this);
           this.updateMetaData(props, context, false);
@@ -315,4 +315,4 @@ const createField = (fieldOptions: FieldOptions = {}) => {
 };
 
 
-export default createField;
+export default dripFormField;
