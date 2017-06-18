@@ -1,15 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react'; // eslint-disable-line
-import { createForm, createField } from '../../../lib/';
+import { dripForm, dripFormField } from '../../../lib/';
 
-const Input = createField()(({
+const Input = dripFormField()(({
   input,
   props,
-  status: {
-    error,
-    dirty,
-    touched,
-  },
+  status: { error, dirty, touched },
 }) => (
   <div>
     <input
@@ -20,7 +16,7 @@ const Input = createField()(({
   </div>
 ));
 
-const SimpleForm = createForm({
+const SimpleForm = dripForm({
   validations: {
     username: {
       required: true,

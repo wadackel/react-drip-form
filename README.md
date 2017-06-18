@@ -6,28 +6,40 @@
 
 > React forms state manager. powerfully supports validation and normalization.
 
-http://todo-demo.com
+https://tsuyoshiwada.github.io/react-drip-form/
 
 
 
 
 ## Table of Contents
 
-<!-- vim-markdown-toc Redcarpet -->
+* [Features](#features)
 * [Getting Started](#getting-started)
   * [Install](#install)
   * [Basic usage](#basic-usage)
-    * [1. TODO](#1-todo)
-    * [2. TODO](#2-todo)
-* [API](#api)
-* [FAQ](#faq)
+    * [1. Create input field component](#1-create-input-field-component)
+    * [2. Create form component](#2-create-form-component)
+    * [3. Mount the Form component](#3-mount-the-form-component)
+    * [4. Enjoy coffee break :coffee:](#4-enjoy-coffee-break-coffee)
+* [Documentation](#documentation)
 * [Related projects](#related-projects)
   * [Components](#components)
   * [Validator](#validator)
 * [Contribute](#contribute)
 * [License](#license)
 
-<!-- vim-markdown-toc -->
+
+
+
+## Features
+
+* HOC based API. (No magic, transparent and open API)
+* Free component design. Integration with many UI frameworks.
+* Rule based validation, and Provide many built-in rules.
+* Support async and sync validation.
+* Support normalization.
+* Support Nest fields and Array fields.
+* Customizable error message. (Support l18n)
 
 
 
@@ -44,29 +56,128 @@ $ npm install --save react-drip-form
 
 ### Basic usage
 
-#### 1. TODO
+
+#### 1. Create input field component
+
+**Input.js**
 
 ```javascript
 import React from 'react';
+import { dripFormField } from 'react-drip-form';
+
+const Input = dripFormField()(({
+  input,
+  props,
+  status: { error, dirty, touched },
+}) => (
+  <div>
+    <input
+      {...props}
+      {...input}
+    />
+    {error && dirty && touched && <span style={{ color: 'red' }}>{error}</span>}
+  </div>
+));
+
+export default Input;
 ```
 
-#### 2. TODO
+
+#### 2. Create form component
+
+**Form.js**
 
 ```javascript
 import React from 'react';
+import { dripForm } from 'react-drip-form';
+import Input from './Input.js';
+
+const Form = dripForm({
+  validations: {
+    email: {
+      required: true,
+      email: true,
+    },
+    password: {
+      required: true,
+      email: true,
+    },
+  },
+})(({
+  handlers,
+  status: { invalid, pristine },
+}) => (
+  <form onSubmit={handlers.onSubmit}>
+    <div>
+      <label for="email">Email-Address</label>
+      <Input
+        type="email"
+        name="email"
+        label="Email-Address"
+        placeholder="Enter your Email-Address"
+      />
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <Input
+        type="password"
+        name="password"
+        label="Password"
+        placeholder="Enter your Password"
+      />
+    </div>
+
+    <button
+      type="submit"
+      disabled={invalid || pristine}
+      onClick={handlers.onSubmit}
+    >
+      Submit
+    </button>
+  </form>
+));
+
+export default Form;
 ```
 
 
+#### 3. Mount the Form component
+
+**App.js**
+
+```javascript
+import React, { Component } from 'react';
+import Form from './Form.js';
+
+export default class App extends Component {
+  // Get valid values.
+  handleSubmit = (values) => {
+    console.log(values);
+  };
+
+  render() {
+    return (
+      <div>
+        <h1>Login</h1>
+        <Form onValidSubmit={this.handleSubmit} />
+      </div>
+    );
+  }
+}
+```
 
 
-## API
+#### 4. Enjoy coffee break :coffee:
 
-TODO
+Your work has complete!  
+Let's enjoy coffee break slowly.
 
 
-## FAQ
 
-TODO
+## Documentation
+
+See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
 
 
 
