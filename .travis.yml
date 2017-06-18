@@ -1,7 +1,7 @@
 branches:
   only:
     - master
-    - dev
+    - develop
 
 notifications:
   email: false
