@@ -286,7 +286,7 @@ webpackJsonp([6],{
 	      "./node_modules/gatsby/dist/loaders/gatsby-module-loader/patch.js"
 	    );
 	    module.exports = function(cb) { 
-	     return __webpack_require__.e/* nsure */(4, function(_, error) {
+	     return __webpack_require__.e/* nsure */(5, function(_, error) {
 	        if (error) {
 	          console.log('bundle loading error', error)
 	          cb(true)
@@ -307,7 +307,7 @@ webpackJsonp([6],{
 	      "./node_modules/gatsby/dist/loaders/gatsby-module-loader/patch.js"
 	    );
 	    module.exports = function(cb) { 
-	     return __webpack_require__.e/* nsure */(3, function(_, error) {
+	     return __webpack_require__.e/* nsure */(4, function(_, error) {
 	        if (error) {
 	          console.log('bundle loading error', error)
 	          cb(true)
@@ -1984,7 +1984,7 @@ webpackJsonp([6],{
 	      "./node_modules/gatsby/dist/loaders/gatsby-module-loader/patch.js"
 	    );
 	    module.exports = function(cb) { 
-	     return __webpack_require__.e/* nsure */(1, function(_, error) {
+	     return __webpack_require__.e/* nsure */(3, function(_, error) {
 	        if (error) {
 	          console.log('bundle loading error', error)
 	          cb(true)
@@ -2026,7 +2026,7 @@ webpackJsonp([6],{
 	      "./node_modules/gatsby/dist/loaders/gatsby-module-loader/patch.js"
 	    );
 	    module.exports = function(cb) { 
-	     return __webpack_require__.e/* nsure */(5, function(_, error) {
+	     return __webpack_require__.e/* nsure */(1, function(_, error) {
 	        if (error) {
 	          console.log('bundle loading error', error)
 	          cb(true)
