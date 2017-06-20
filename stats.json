@@ -13,8 +13,8 @@
       "page-component---src-pages-index-js-4165d2eb39f085572e0f.js.map"
     ],
     "layout-component---index": [
-      "layout-component---index-791ab758a56eb104d143.js",
-      "layout-component---index-791ab758a56eb104d143.js.map"
+      "layout-component---index-e7e1eca541ee053cad8f.js",
+      "layout-component---index-e7e1eca541ee053cad8f.js.map"
     ],
     "path---index": [
       "path---index-586c7e095e534a3909ec.js",
@@ -24,9 +24,13 @@
       "path---docs-468ee435b5ad525056db.js",
       "path---docs-468ee435b5ad525056db.js.map"
     ],
+    "path---docs-motivation": [
+      "path---docs-motivation-56786f8e379832e669cb.js",
+      "path---docs-motivation-56786f8e379832e669cb.js.map"
+    ],
     "app": [
-      "app-dbd5320c4123c80b30a4.js",
-      "app-dbd5320c4123c80b30a4.js.map"
+      "app-e4b8974b09c218fa8ce4.js",
+      "app-e4b8974b09c218fa8ce4.js.map"
     ]
   }
 }

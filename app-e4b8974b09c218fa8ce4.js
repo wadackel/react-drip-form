@@ -1,4 +1,4 @@
-webpackJsonp([6],{
+webpackJsonp([7],{
 
 /***/ "./.cache/api-runner-browser.js":
 /***/ (function(module, exports, __webpack_require__) {
@@ -67,6 +67,7 @@ webpackJsonp([6],{
 	
 	exports.json = {
 	  "docs.json": __webpack_require__("./node_modules/gatsby/dist/loaders/gatsby-module-loader/index.js?name=path---docs!./.cache/json/docs.json"),
+	  "docs-motivation.json": __webpack_require__("./node_modules/gatsby/dist/loaders/gatsby-module-loader/index.js?name=path---docs-motivation!./.cache/json/docs-motivation.json"),
 	  "index.json": __webpack_require__("./node_modules/gatsby/dist/loaders/gatsby-module-loader/index.js?name=path---index!./.cache/json/index.json")
 	};
 	
@@ -275,6 +276,27 @@ webpackJsonp([6],{
 	  };
 	};
 	//# sourceMappingURL=find-page.js.map
+
+/***/ }),
+
+/***/ "./node_modules/gatsby/dist/loaders/gatsby-module-loader/index.js?name=path---docs-motivation!./.cache/json/docs-motivation.json":
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	    __webpack_require__(
+	      "./node_modules/gatsby/dist/loaders/gatsby-module-loader/patch.js"
+	    );
+	    module.exports = function(cb) { 
+	     return __webpack_require__.e/* nsure */(6, function(_, error) {
+	        if (error) {
+	          console.log('bundle loading error', error)
+	          cb(true)
+	        } else {
+	          cb(null, function() { return __webpack_require__("./node_modules/json-loader/index.js!./.cache/json/docs-motivation.json") })
+	        }
+	      });
+	     }
+	    
 
 /***/ }),
 
@@ -650,6 +672,11 @@ webpackJsonp([6],{
 			"componentChunkName": "page-component---src-templates-template-docs-markdown-js",
 			"jsonName": "docs.json",
 			"path": "/docs/"
+		},
+		{
+			"componentChunkName": "page-component---src-templates-template-docs-markdown-js",
+			"jsonName": "docs-motivation.json",
+			"path": "/docs/motivation/"
 		},
 		{
 			"componentChunkName": "page-component---src-pages-index-js",
@@ -2040,4 +2067,4 @@ webpackJsonp([6],{
 /***/ })
 
 });
-//# sourceMappingURL=app-dbd5320c4123c80b30a4.js.map
+//# sourceMappingURL=app-e4b8974b09c218fa8ce4.js.map
