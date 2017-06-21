@@ -5,24 +5,28 @@
       "commons-4ce32c89ac6d8048d929.js.map"
     ],
     "page-component---src-templates-template-docs-markdown-js": [
-      "page-component---src-templates-template-docs-markdown-js-9146411c5d4d1b659a3f.js",
-      "page-component---src-templates-template-docs-markdown-js-9146411c5d4d1b659a3f.js.map"
+      "page-component---src-templates-template-docs-markdown-js-f0894b0ea01858012c49.js",
+      "page-component---src-templates-template-docs-markdown-js-f0894b0ea01858012c49.js.map"
     ],
     "page-component---src-pages-index-js": [
-      "page-component---src-pages-index-js-e74c1637fc720ca971f1.js",
-      "page-component---src-pages-index-js-e74c1637fc720ca971f1.js.map"
+      "page-component---src-pages-index-js-3b66da49498edaa5e301.js",
+      "page-component---src-pages-index-js-3b66da49498edaa5e301.js.map"
     ],
     "layout-component---index": [
-      "layout-component---index-d0101a3442d280398e87.js",
-      "layout-component---index-d0101a3442d280398e87.js.map"
+      "layout-component---index-f7c1d29f9082cc56ebb5.js",
+      "layout-component---index-f7c1d29f9082cc56ebb5.js.map"
     ],
     "path---index": [
       "path---index-586c7e095e534a3909ec.js",
       "path---index-586c7e095e534a3909ec.js.map"
     ],
     "path---docs": [
-      "path---docs-468ee435b5ad525056db.js",
-      "path---docs-468ee435b5ad525056db.js.map"
+      "path---docs-bd1ee14a1bc608bb447e.js",
+      "path---docs-bd1ee14a1bc608bb447e.js.map"
+    ],
+    "path---docs-testing": [
+      "path---docs-testing-99771c99882f884119c8.js",
+      "path---docs-testing-99771c99882f884119c8.js.map"
     ],
     "path---docs-motivation": [
       "path---docs-motivation-80d65c3adec0ef8fdb67.js",
@@ -32,13 +36,9 @@
       "path---docs-flow-733459b9f799e6f8d829.js",
       "path---docs-flow-733459b9f799e6f8d829.js.map"
     ],
-    "path---docs-customization": [
-      "path---docs-customization-151d4303f560c587fa79.js",
-      "path---docs-customization-151d4303f560c587fa79.js.map"
-    ],
     "app": [
-      "app-8d369da9be4613460073.js",
-      "app-8d369da9be4613460073.js.map"
+      "app-f81c9582a6e4186e4a77.js",
+      "app-f81c9582a6e4186e4a77.js.map"
     ]
   }
 }
