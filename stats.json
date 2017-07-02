@@ -1,8 +1,12 @@
 {
   "assetsByChunkName": {
     "commons": [
-      "commons-29ab890f1f86d54be0a2.js",
-      "commons-29ab890f1f86d54be0a2.js.map"
+      "commons-f8cea1348ccd613a86e4.js",
+      "commons-f8cea1348ccd613a86e4.js.map"
+    ],
+    "page-component---src-pages-examples-material-ui-js": [
+      "page-component---src-pages-examples-material-ui-js-a67fb1f72bcb6efc2bd5.js",
+      "page-component---src-pages-examples-material-ui-js-a67fb1f72bcb6efc2bd5.js.map"
     ],
     "page-component---src-pages-examples-redux-js": [
       "page-component---src-pages-examples-redux-js-e2ed93fad58f228b99a6.js",
@@ -39,6 +43,10 @@
     "path---examples-nest-fields": [
       "path---examples-nest-fields-586c7e095e534a3909ec.js",
       "path---examples-nest-fields-586c7e095e534a3909ec.js.map"
+    ],
+    "path---examples-material-ui": [
+      "path---examples-material-ui-586c7e095e534a3909ec.js",
+      "path---examples-material-ui-586c7e095e534a3909ec.js.map"
     ],
     "path---examples-manual-submit": [
       "path---examples-manual-submit-586c7e095e534a3909ec.js",
@@ -145,8 +153,8 @@
       "page-component---src-pages-examples-async-validation-js-2c29e393d74b242e98d0.js.map"
     ],
     "app": [
-      "app-1fce2c7e69d86affb051.js",
-      "app-1fce2c7e69d86affb051.js.map"
+      "app-21bda2f7370f0ae6e6dc.js",
+      "app-21bda2f7370f0ae6e6dc.js.map"
     ]
   }
 }
