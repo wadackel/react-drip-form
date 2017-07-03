@@ -1,0 +1,16 @@
+branches:
+  only:
+    - master
+    - develop
+
+notifications:
+  email: false
+
+language: node_js
+node_js:
+  - "8"
+  - "7"
+  - "6"
+
+after_success:
+  - npm run codecov
