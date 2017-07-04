@@ -2,6 +2,10 @@
 /* eslint-disable import/prefer-default-export */
 import PropTypes from 'prop-types';
 
+export type FunctionalComponent<P, C> = (props: P, context: C) => ?React$Element<any>;
+export type ClassComponent<D, P, S> = Class<React$Component<D, P, S>>;
+export type $WrappedComponent<D, P, S> = ClassComponent<D, P, S> | FunctionalComponent<P, *>;
+
 export type Values = {
   [key: string]: any;
 };

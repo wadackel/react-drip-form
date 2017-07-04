@@ -15,6 +15,7 @@ import makeDisplayName from './utils/makeDisplayName';
 import { DFContextTypes } from './types';
 
 import type {
+  $WrappedComponent,
   Values,
   Errors,
   Validations,
@@ -82,8 +83,8 @@ const dripForm = (formOptions: FormOptions = {}) => {
     ...formOptions,
   };
 
-  return (WrappedComponent: Class<Component<any, any, any>> | Function) => (
-    class DripForm extends Component<any, any, any> {
+  return (WrappedComponent: $WrappedComponent<*, *, *>) => (
+    class DripForm extends Component<*, *, *> {
       static displayName = makeDisplayName(WrappedComponent, 'dripForm');
       static childContextTypes = DFContextTypes;
       static defaultProps = {

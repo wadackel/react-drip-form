@@ -9,6 +9,7 @@ import makeDisplayName from './utils/makeDisplayName';
 import { DFContextTypes } from './types';
 
 import type {
+  $WrappedComponent,
   DFContext,
   ErrorMessageList,
   ErrorMessage,
@@ -32,7 +33,7 @@ export type State = {
 };
 
 const dripFormGroup = () => (
-  (WrappedComponent: Class<Component<any, any, any>> | Function) => (
+  (WrappedComponent: $WrappedComponent<*, *, *>) => (
     class DripFormGroup extends Component {
       static displayName = makeDisplayName(WrappedComponent, 'dripFormGroup');
       static contextTypes = DFContextTypes;
