@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
 import React, { Component } from 'react';
 import Link from 'gatsby-link';
 import { Container, Row, Col } from 'react-lime-grid';

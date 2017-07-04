@@ -1,8 +1,4 @@
-/* eslint-disable max-len */
 /* eslint-disable no-alert */
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/href-no-hash */
-/* eslint-disable jsx-a11y/label-has-for */
 import React, { Component } from 'react';
 import { dripForm } from '../../../../src/';
 import { Layout, Button, Code } from '../../components/';

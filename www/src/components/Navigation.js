@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import Link from 'gatsby-link';
 import { Logo, Humberger, Sidebar } from './';

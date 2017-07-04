@@ -1,9 +1,4 @@
-/* eslint-disable */
 /* eslint-disable no-alert */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable jsx-a11y/href-no-hash */
-/* eslint-disable jsx-a11y/label-has-for */
 import React, { Component } from 'react';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
@@ -31,17 +26,17 @@ const requestLogin = (username, password) => new Promise((resolve, reject) => {
 
 // Action Creators
 const formActions = {
-  loginRequest: (payload) => ({ type: 'LOGIN_REQUEST', payload }),
-  loginSuccess: (payload) => ({ type: 'LOGIN_SUCCESS', payload }),
-  loginFailure: (payload) => ({ type: 'LOGIN_FAILURE', payload, error: true }),
+  loginRequest: payload => ({ type: 'LOGIN_REQUEST', payload }),
+  loginSuccess: payload => ({ type: 'LOGIN_SUCCESS', payload }),
+  loginFailure: payload => ({ type: 'LOGIN_FAILURE', payload, error: true }),
 };
 
-formActions.login = ({ username, password }) => dispatch => {
+formActions.login = ({ username, password }) => (dispatch) => {
   dispatch(formActions.loginRequest({ username, password }));
 
   requestLogin(username, password)
     .then(user => dispatch(formActions.loginSuccess(user)))
-    .catch(error => dispatch(formActions.loginFailure(error)))
+    .catch(error => dispatch(formActions.loginFailure(error)));
 };
 
 
@@ -131,35 +126,33 @@ const Form = dripForm({
 
 
 // Presentational Component
-const ReduxForm = ({ form, onSubmit }) => {
-  return (
-    <div>
-      <Form
-        submitting={form.submitting}
-        onValidSubmit={onSubmit}
-      />
+const ReduxForm = ({ form, onSubmit }) => (
+  <div>
+    <Form
+      submitting={form.submitting}
+      onValidSubmit={onSubmit}
+    />
 
-      {form.error &&
-        <div style={{ color: 'red' }}>
-          {form.error}
-        </div>
-      }
+    {form.error &&
+      <div style={{ color: 'red' }}>
+        {form.error}
+      </div>
+    }
 
-      {form.user &&
-        <div>
-          <h4>Result!</h4>
-          <pre>{JSON.stringify(form.user, null, 2)}</pre>
-        </div>
-      }
-    </div>
-  );
-};
+    {form.user &&
+      <div>
+        <h4>Result!</h4>
+        <pre>{JSON.stringify(form.user, null, 2)}</pre>
+      </div>
+    }
+  </div>
+);
 
 
 // Container Component
 const ConnectedReduxForm = connect(
-  ({ form }) => ({ form }),
-  (dispatch) => ({
+  state => state,
+  dispatch => ({
     onSubmit: (values) => {
       dispatch(formActions.login(values));
     },
@@ -176,6 +169,7 @@ const ReduxApp = () => (
 );
 
 
+// eslint-disable-next-line react/prefer-stateless-function
 export default class BasicFormExample extends Component {
   render() {
     const { location } = this.props;
@@ -206,6 +200,7 @@ export default class BasicFormExample extends Component {
         <Code language="javascript">{`import React, { Component } from 'react';
 import { dripForm } from 'react-drip-form';
 
+
 // Simulate API
 const requestLogin = (username, password) => new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -224,17 +219,17 @@ const requestLogin = (username, password) => new Promise((resolve, reject) => {
 
 // Action Creators
 const formActions = {
-  loginRequest: (payload) => ({ type: 'LOGIN_REQUEST', payload }),
-  loginSuccess: (payload) => ({ type: 'LOGIN_SUCCESS', payload }),
-  loginFailure: (payload) => ({ type: 'LOGIN_FAILURE', payload, error: true }),
+  loginRequest: payload => ({ type: 'LOGIN_REQUEST', payload }),
+  loginSuccess: payload => ({ type: 'LOGIN_SUCCESS', payload }),
+  loginFailure: payload => ({ type: 'LOGIN_FAILURE', payload, error: true }),
 };
 
-formActions.login = ({ username, password }) => dispatch => {
+formActions.login = ({ username, password }) => (dispatch) => {
   dispatch(formActions.loginRequest({ username, password }));
 
   requestLogin(username, password)
     .then(user => dispatch(formActions.loginSuccess(user)))
-    .catch(error => dispatch(formActions.loginFailure(error)))
+    .catch(error => dispatch(formActions.loginFailure(error)));
 };
 
 
@@ -324,35 +319,33 @@ const Form = dripForm({
 
 
 // Presentational Component
-const ReduxForm = ({ form, onSubmit }) => {
-  return (
-    <div>
-      <Form
-        submitting={form.submitting}
-        onValidSubmit={onSubmit}
-      />
+const ReduxForm = ({ form, onSubmit }) => (
+  <div>
+    <Form
+      submitting={form.submitting}
+      onValidSubmit={onSubmit}
+    />
 
-      {form.error &&
-        <div style={{ color: 'red' }}>
-          {form.error}
-        </div>
-      }
+    {form.error &&
+      <div style={{ color: 'red' }}>
+        {form.error}
+      </div>
+    }
 
-      {form.user &&
-        <div>
-          <h4>Result!</h4>
-          <pre>{JSON.stringify(form.user, null, 2)}</pre>
-        </div>
-      }
-    </div>
-  );
-};
+    {form.user &&
+      <div>
+        <h4>Result!</h4>
+        <pre>{JSON.stringify(form.user, null, 2)}</pre>
+      </div>
+    }
+  </div>
+);
 
 
 // Container Component
 const ConnectedReduxForm = connect(
-  ({ form }) => ({ form }),
-  (dispatch) => ({
+  state => state,
+  dispatch => ({
     onSubmit: (values) => {
       dispatch(formActions.login(values));
     },

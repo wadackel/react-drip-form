@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/accessible-emoji */
 import React from 'react';
 import Link from 'gatsby-link';
 import { Container, Row, Col } from 'react-lime-grid';

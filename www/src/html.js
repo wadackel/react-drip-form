@@ -3,7 +3,6 @@
 /* eslint-disable import/no-webpack-loader-syntax */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/no-danger */
-/* eslint-disable react/prop-types */
 import React from 'react';
 import Helmet from 'react-helmet';
 import flush from 'styled-jsx/server';

@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
 import React, { Component } from 'react';
 
 export const TabPanel = ({ id, children, ...rest }) => (

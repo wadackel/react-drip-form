@@ -1,9 +1,4 @@
 /* eslint-disable no-alert */
-/* eslint-disable max-len */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable jsx-a11y/href-no-hash */
-/* eslint-disable jsx-a11y/label-has-for */
 import React, { Component } from 'react';
 import 'drip-form-validator/lib/locale/ja'; // eslint-disable-line import/no-extraneous-dependencies
 import { dripForm, Validator } from '../../../../src/';

@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable max-len */
 import React from 'react';
 import { Container, Row, Col } from 'react-lime-grid';
 import { Helmet, Header, Footer, Logo, Demo, Code } from '../components/';
