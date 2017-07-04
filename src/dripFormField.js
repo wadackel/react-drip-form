@@ -14,6 +14,7 @@ import createFieldProps from './utils/createFieldProps';
 import { DFContextTypes } from './types';
 
 import type {
+  $WrappedComponent,
   DFContext,
   ErrorMessage,
   ErrorMessageList,
@@ -26,19 +27,6 @@ import type {
   MessageList,
 } from './types';
 
-export type FieldOptions = {
-  defaultFormatter?: ?FieldFormatter;
-  defaultParser?: ?FieldParser;
-};
-
-const defaultFieldOptions: FieldOptions = {
-  defaultParser: null,
-  defaultFormatter,
-};
-
-const normalizeFieldName = (name: string): string => (
-  name.replace(/\[\]$/, '')
-);
 
 export type Props = {
   name: string;
@@ -57,30 +45,35 @@ export type Props = {
 export type State = {
 };
 
+export type FieldOptions = {
+  defaultProps?: Object;
+};
+
+const normalizeFieldName = (name: string): string => (
+  name.replace(/\[\]$/, '')
+);
+
 const getPropsValue = (props: Props, defaultValue: any): any => (
   hasProp(props, 'value') ? props.value : defaultValue
 );
 
-const dripFormField = (fieldType: FieldType = 'text', fieldOptions: FieldOptions = {}) => {
-  const options: FieldOptions = {
-    ...defaultFieldOptions,
-    ...fieldOptions,
-  };
 
-  return (WrappedComponent: Class<Component<any, any, any>> | Function) => (
-    class DripFormField extends Component<any, any, any> {
+const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}) => (
+  (WrappedComponent: $WrappedComponent<*, *, *>) => (
+    class DripFormField extends Component<*, *, *> {
       static displayName = makeDisplayName(WrappedComponent, 'dripFormField');
       static contextTypes = DFContextTypes;
       static defaultProps = {
         label: null,
-        parser: options.defaultParser,
-        formatter: options.defaultFormatter,
+        parser: null,
+        formatter: defaultFormatter,
         validations: null,
         normalizers: null,
         messages: null,
         onChange: null,
         onBlur: null,
         onFocus: null,
+        ...(options.defaultProps || {}),
       };
 
       context: DFContext;
@@ -363,7 +356,11 @@ const dripFormField = (fieldType: FieldType = 'text', fieldOptions: FieldOptions
           ...props
         } = this.props;
 
-        const contextValue = formatFieldValue(this.getValue(), this.name, formatter);
+        const contextValue = formatFieldValue(
+          this.getValue(),
+          this.name,
+          formatter
+        );
 
         return (
           <WrappedComponent
@@ -393,8 +390,8 @@ const dripFormField = (fieldType: FieldType = 'text', fieldOptions: FieldOptions
         );
       }
     }
-  );
-};
+  )
+);
 
 
 export default dripFormField;
