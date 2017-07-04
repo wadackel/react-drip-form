@@ -81,8 +81,6 @@ const dripFormField = (fieldType: FieldType = 'text', fieldOptions: FieldOptions
         onChange: null,
         onBlur: null,
         onFocus: null,
-        onDragStart: null,
-        onDrop: null,
       };
 
       context: DFContext;

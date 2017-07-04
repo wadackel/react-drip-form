@@ -104,9 +104,7 @@ describe('dripFormField()', () => {
     expect(input.onChange).toBeInstanceOf(Function);
     expect(input.onFocus).toBeInstanceOf(Function);
     expect(input.onBlur).toBeInstanceOf(Function);
-    expect(input.onDragStart).toBeInstanceOf(Function);
-    expect(input.onDrop).toBeInstanceOf(Function);
-    expect(Object.keys(input).length).toBe(7);
+    expect(Object.keys(input).length).toBe(5);
 
     expect(wrapper.prop('meta')).toEqual({
       label: null,
