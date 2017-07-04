@@ -12,6 +12,7 @@
     "test:unit": "jest",
     "test:coverage": "npm run test:unit -- --coverage",
     "codecov": "npm run test:coverage && codecov",
+    "prebuild": "rimraf lib",
     "prepublish": "npm run build"
   },
   "keywords": [
@@ -70,7 +71,8 @@
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.6.1",
-    "react-test-renderer": "^15.6.1"
+    "react-test-renderer": "^15.6.1",
+    "rimraf": "^2.6.1"
   },
   "dependencies": {
     "dot-wild": "^2.2.4",
