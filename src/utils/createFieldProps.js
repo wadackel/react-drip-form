@@ -1,16 +1,17 @@
 // @flow
-import * as dot from 'dot-wild';
-import type { FieldProps } from '../types';
+import isArray from './isArray';
+import * as arrays from './arrays';
+import type { InternalFieldType, FieldProps } from '../types';
 
-const createFieldProps = (type: string, preProps: FieldProps): any => {
-  const { input: { value } } = preProps;
-
+const createFieldProps = (type: InternalFieldType, value: any, preProps: FieldProps): any => {
   switch (type) {
     case 'checkbox': return {
       ...preProps,
       input: {
         ...preProps.input,
-        value: !!value,
+        checked: isArray(value)
+          ? arrays.includes(value, preProps.input.value)
+          : value === preProps.input.value,
       },
     };
 
@@ -18,11 +19,7 @@ const createFieldProps = (type: string, preProps: FieldProps): any => {
       ...preProps,
       input: {
         ...preProps.input,
-        value: preProps.props.value,
-      },
-      props: {
-        ...(dot.remove(preProps.props, 'value')),
-        checked: value === preProps.props.value,
+        checked: value === preProps.input.value,
       },
     };
 
@@ -34,16 +31,21 @@ const createFieldProps = (type: string, preProps: FieldProps): any => {
       },
     };
 
-    // @TODO
     case 'file': return {
       ...preProps,
       input: {
         ...preProps.input,
-        value: undefined,
+        value: value || undefined,
       },
     };
 
-    default: return preProps;
+    default: return {
+      ...preProps,
+      input: {
+        ...preProps.input,
+        value,
+      },
+    };
   }
 };
 

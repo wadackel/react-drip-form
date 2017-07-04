@@ -1,5 +1,9 @@
-declare module 'invariant' {
-  declare export default any;
+declare module 'immutable-arrays' {
+  declare export function push<T>(array: T, ...values: T): T;
+  declare export function pop<T>(array: T): T;
+  declare export function shift<T>(array: T): T;
+  declare export function unshift<T>(array: T): T;
+  declare export function del<T>(array: T, index: number): T;
 }
 
 declare module 'lodash.isequal' {
@@ -24,14 +28,6 @@ declare module 'dot-wild' {
   declare export function escapePath(key: string): string;
   declare export function buildPath(array: any[]): string;
   declare export function matchPath(keyA: string, keyB: string): boolean;
-}
-
-declare module 'throttle-debounce/throttle' {
-  declare export default function throttle<T>(delay: number, noTrailing: boolean, callback: T, debounceMode: boolean): T;
-}
-
-declare module 'throttle-debounce/debounce' {
-  declare export default any;
 }
 
 declare module 'drip-form-validator' {

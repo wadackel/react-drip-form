@@ -2,59 +2,40 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import dripFormField from '../dripFormField';
+import {
+  mockEvent,
+  mockContext,
+} from './mock';
 
 
-const mockEvent = (params = {}) => ({
-  stopPropagation: () => {},
-  preventDefault: () => {},
-  ...params,
-});
-
-const mockContext = (context = {}) => ({
-  dripForm: true,
-  register: () => {},
-  unregister: () => {},
-  updateValue: () => {},
-  updateTouched: () => {},
-  updateDirty: () => {},
-  updateValidations: () => {},
-  updateNormalizers: () => {},
-  updateLabel: () => {},
-  updateMessages: () => {},
-  validating: [],
-  values: {},
-  errors: {},
-  dirties: [],
-  touches: [],
-  ...context,
-});
-
-const mockComponent = (WrappedComponent, options = {}) => (
-  dripFormField(options)(WrappedComponent)
+const mockComponent = (type = 'text', WrappedComponent, options = {}) => (
+  dripFormField(type, options)(WrappedComponent)
 );
 
-const mockRender = (useShallow, WrappedComponent, props = {}, context, options = {}) => {
-  const Component = mockComponent(WrappedComponent, options);
+const mockRender = (useShallow, type = 'text', WrappedComponent, props = {}, context, options = {}) => {
+  const Component = mockComponent(type, WrappedComponent, options);
 
   return (useShallow ? shallow : mount)(<Component {...props} />, {
     context: mockContext(context),
   });
 };
 
-const mockShallow = (WrappedComponent, props = {}, context = {}, options = {}) => (
-  mockRender(true, WrappedComponent, props, context, options)
+const mockShallow = (type = 'text', WrappedComponent, props = {}, context = {}, options = {}) => (
+  mockRender(true, type, WrappedComponent, props, context, options)
 );
 
-const mockMount = (WrappedComponent, props = {}, context = {}, options = {}) => (
-  mockRender(false, WrappedComponent, props, context, options)
+const mockMount = (type = 'text', WrappedComponent, props = {}, context = {}, options = {}) => (
+  mockRender(false, type, WrappedComponent, props, context, options)
 );
 
 
 describe('dripFormField()', () => {
   test('Should be create field', () => {
-    const wrapper = mockShallow(() => (
+    const wrapper = mockShallow('text', () => (
       <div>Field</div>
-    ));
+    ), {
+      name: 'foo',
+    });
 
     expect(wrapper.html()).toBe('<div>Field</div>');
   });
@@ -62,21 +43,32 @@ describe('dripFormField()', () => {
 
   test('Should not be create field from outside DripForm component', () => {
     const original = global.console.error;
-    global.console.error = jest.fn();
+    global.console.error = () => {};
 
     expect(() => {
-      const Field = mockComponent(() => <div />);
-      shallow(<Field />);
+      const Field = mockComponent('text', () => <div />);
+      shallow(<Field name="foo" />);
     }).toThrow();
 
-    global.console.error.mockRestore();
+    global.console.error = original;
+  });
+
+
+  test('Should not be create field without name props', () => {
+    const original = global.console.error;
+    global.console.error = () => {};
+
+    expect(() => {
+      mockShallow('text', () => <div />);
+    }).toThrow();
+
     global.console.error = original;
   });
 
 
   test('Should be wrap displayName', () => {
-    expect(mockComponent(() => <div />).displayName).toBe('dripFormField(Component)');
-    expect(mockComponent(class Foo extends React.Component {
+    expect(mockComponent('text', () => <div />).displayName).toBe('dripFormField(Component)');
+    expect(mockComponent('text', class Foo extends React.Component {
       render() {
         return <span />;
       }
@@ -85,15 +77,16 @@ describe('dripFormField()', () => {
 
 
   test('Should be pass original props', () => {
-    const Field = mockComponent(() => <div />);
+    const Field = mockComponent('text', () => <div />);
     const wrapper = shallow(
       <Field
         id="foo-bar"
         className="hoge-fuga"
+        name="foo"
       />
-    , {
-      context: mockContext(),
-    });
+      , {
+        context: mockContext(),
+      });
 
     expect(wrapper.prop('props')).toEqual({
       id: 'foo-bar',
@@ -103,10 +96,20 @@ describe('dripFormField()', () => {
 
 
   test('Should be pass field props', () => {
-    const wrapper = mockShallow(() => <div />);
+    let wrapper = mockShallow('text', () => <div />, { name: 'foo' });
+    let input = wrapper.prop('input');
 
-    expect(wrapper.prop('input').value).toBe('');
-    expect(wrapper.prop('status')).toEqual({
+    expect(input.name).toBe('foo');
+    expect(input.value).toBe('');
+    expect(input.onChange).toBeInstanceOf(Function);
+    expect(input.onFocus).toBeInstanceOf(Function);
+    expect(input.onBlur).toBeInstanceOf(Function);
+    expect(input.onDragStart).toBeInstanceOf(Function);
+    expect(input.onDrop).toBeInstanceOf(Function);
+    expect(Object.keys(input).length).toBe(7);
+
+    expect(wrapper.prop('meta')).toEqual({
+      label: null,
       error: undefined,
       errors: undefined,
       valid: true,
@@ -117,40 +120,122 @@ describe('dripFormField()', () => {
       pristine: true,
       validating: false,
     });
+
+    wrapper = mockShallow('text', () => <div />, {
+      name: 'foo',
+      label: 'Label',
+      className: 'foo',
+    });
+    input = wrapper.prop('input');
+
+    expect(input.name).toBe('foo');
+    expect(input.value).toBe('');
+    expect(wrapper.prop('meta').label).toBe('Label');
   });
 
 
   test('Should be call "register" function in the constructor.', () => {
     const register = jest.fn();
 
-    const Field = mockComponent(() => <div />);
-    const wrapper = shallow(<Field />, {
+    const Field = mockComponent('text', () => <div />);
+    const wrapper = shallow(<Field name="foobar" />, {
       context: mockContext({
         register,
       }),
     });
 
-    expect(register.mock.calls[0][0]).toEqual(wrapper.instance());
+    expect(register.mock.calls[0][0]).toBe('foobar');
+    expect(register.mock.calls[0][1]).toEqual(wrapper.instance());
   });
 
 
   test('Should be call "unregister" function when unmounting', () => {
     const unregister = jest.fn();
 
-    const Field = mockComponent(() => <div />);
-    const wrapper = shallow(<Field />, {
+    const Field = mockComponent('text', () => <div />);
+    const wrapper = shallow(<Field name="testname" />, {
       context: mockContext({
         unregister,
       }),
     });
 
-    const instance = wrapper.instance();
-
     expect(unregister.mock.calls.length).toBe(0);
 
     wrapper.unmount();
 
-    expect(unregister.mock.calls[0][0]).toEqual(instance);
+    expect(unregister.mock.calls[0]).toEqual(['testname']);
+  });
+
+
+  test('Should be call updateValue in willMount', () => {
+    const updateValue = jest.fn();
+    const name = 'fieldName';
+
+    mockShallow('text', () => <div />, {
+      name,
+    }, {
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+
+    updateValue.mockClear();
+    mockShallow('text', () => <div />, {
+      name,
+    }, {
+      values: { [name]: 'value!!' },
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, 'value!!', false]);
+
+    updateValue.mockClear();
+    mockShallow('text', () => <div />, {
+      name,
+      value: 'value',
+    }, {
+      values: {},
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, 'value', false]);
+
+    updateValue.mockClear();
+    mockShallow('radio', () => <div />, {
+      name,
+      value: 'value',
+    }, {
+      values: {},
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+
+    updateValue.mockClear();
+    mockShallow('radio', () => <div />, {
+      name,
+      value: 'value',
+    }, {
+      values: { [name]: 'radio value' },
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, 'radio value', false]);
+
+    updateValue.mockClear();
+    mockShallow('checkbox', () => <div />, {
+      name,
+      value: 'value',
+    }, {
+      values: {},
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+
+    updateValue.mockClear();
+    mockShallow('checkbox', () => <div />, {
+      name,
+      value: 'value',
+    }, {
+      values: { [name]: 'checkbox value' },
+      updateValue,
+    });
+    expect(updateValue.mock.calls[0]).toEqual([name, 'checkbox value', false]);
   });
 
 
@@ -166,7 +251,7 @@ describe('dripFormField()', () => {
     const label = 'Field Name';
     const messages = { message: 'message' };
 
-    mockShallow(() => <div />, {
+    mockShallow('text', () => <div />, {
       name,
       validations,
       normalizers,
@@ -180,124 +265,42 @@ describe('dripFormField()', () => {
     });
 
     expect(updateValidations.mock.calls.length).toBe(2);
-    expect(updateValidations.mock.calls[0])
-      .toEqual([
-        name,
-        validations,
-        false,
-      ]);
-    expect(updateValidations.mock.calls[0])
-      .toEqual(updateValidations.mock.calls[1]);
+    expect(updateValidations.mock.calls[0]).toEqual([
+      name,
+      validations,
+      false,
+    ]);
+    expect(updateValidations.mock.calls[0]).toEqual(updateValidations.mock.calls[1]);
 
     expect(updateNormalizers.mock.calls.length).toBe(2);
-    expect(updateNormalizers.mock.calls[0])
-      .toEqual([
-        name,
-        normalizers,
-        false,
-      ]);
-    expect(updateNormalizers.mock.calls[0])
-      .toEqual(updateNormalizers.mock.calls[1]);
+    expect(updateNormalizers.mock.calls[0]).toEqual([
+      name,
+      normalizers,
+      false,
+    ]);
+    expect(updateNormalizers.mock.calls[0]).toEqual(updateNormalizers.mock.calls[1]);
 
     expect(updateMessages.mock.calls.length).toBe(2);
-    expect(updateMessages.mock.calls[0])
-      .toEqual([
-        name,
-        messages,
-        false,
-      ]);
-    expect(updateMessages.mock.calls[0])
-      .toEqual(updateMessages.mock.calls[1]);
+    expect(updateMessages.mock.calls[0]).toEqual([
+      name,
+      messages,
+      false,
+    ]);
+    expect(updateMessages.mock.calls[0]).toEqual(updateMessages.mock.calls[1]);
 
     expect(updateLabel.mock.calls.length).toBe(2);
-    expect(updateLabel.mock.calls[0])
-      .toEqual([
-        name,
-        label,
-        false,
-      ]);
-    expect(updateLabel.mock.calls[0])
-      .toEqual(updateLabel.mock.calls[1]);
-  });
-
-
-  test('Should be call updateValue function when willMount', () => {
-    const updateValue = jest.fn();
-    const name = 'updateValueField';
-
-    mockShallow(() => <div />, {
+    expect(updateLabel.mock.calls[0]).toEqual([
       name,
-    }, {
-      updateValue,
-    });
-
-    expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0])
-      .toEqual([
-        name,
-        null,
-        false,
-      ]);
-
-    updateValue.mockReset();
-
-    mockShallow(() => <div />, {
-      name,
-      value: 'value',
-    }, {
-      updateValue,
-    });
-
-    expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0])
-      .toEqual([
-        name,
-        'value',
-        false,
-      ]);
-
-    updateValue.mockReset();
-
-    mockShallow(() => <div />, {
-      name,
-    }, {
-      updateValue,
-      values: {
-        [name]: 'context value',
-      },
-    });
-
-    expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0])
-      .toEqual([
-        name,
-        'context value',
-        false,
-      ]);
-
-    updateValue.mockReset();
-
-    mockShallow(() => <div />, {
-      name,
-      value: 'prop value',
-    }, {
-      updateValue,
-      values: {
-        [name]: 'context value',
-      },
-    });
-
-    expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0])
-      .toEqual([
-        name,
-        'prop value',
-        false,
-      ]);
+      label,
+      false,
+    ]);
+    expect(updateLabel.mock.calls[0]).toEqual(updateLabel.mock.calls[1]);
   });
 
 
   test('Should be call update data functions when receive props', () => {
+    const register = jest.fn();
+    const unregister = jest.fn();
     const updateValue = jest.fn();
     const updateValidations = jest.fn();
     const updateNormalizers = jest.fn();
@@ -306,7 +309,7 @@ describe('dripFormField()', () => {
 
     const name = 'fieldName';
 
-    const wrapper = mockShallow(() => <div />, {
+    const wrapper = mockShallow('text', () => <div />, {
       name,
       value: null,
       validations: {},
@@ -314,6 +317,8 @@ describe('dripFormField()', () => {
       messages: {},
       label: null,
     }, {
+      register,
+      unregister,
       updateValue,
       updateValidations,
       updateNormalizers,
@@ -321,6 +326,8 @@ describe('dripFormField()', () => {
       updateLabel,
     });
 
+    register.mockReset();
+    unregister.mockReset();
     updateValue.mockReset();
     updateValidations.mockReset();
     updateNormalizers.mockReset();
@@ -386,6 +393,12 @@ describe('dripFormField()', () => {
       'label',
       true,
     ]);
+
+    wrapper.setProps({ name: 'changed name' });
+    expect(unregister.mock.calls.length).toBe(1);
+    expect(unregister.mock.calls[0]).toEqual([name]);
+    expect(register.mock.calls.length).toBe(1);
+    expect(register.mock.calls[0]).toEqual(['changed name', wrapper.instance()]);
   });
 
 
@@ -393,21 +406,21 @@ describe('dripFormField()', () => {
     const name = 'initialValueField';
     let wrapper;
 
-    wrapper = mockShallow(() => <div />, {
+    wrapper = mockShallow('text', () => <div />, {
       name,
       value: null,
     });
 
     expect(wrapper.instance().initialValue).toBe(null);
 
-    wrapper = mockShallow(() => <div />, {
+    wrapper = mockShallow('text', () => <div />, {
       name,
       value: 'prop value',
     });
 
     expect(wrapper.instance().initialValue).toBe('prop value');
 
-    wrapper = mockShallow(() => <div />, {
+    wrapper = mockShallow('text', () => <div />, {
       name,
     }, {
       values: {
@@ -417,7 +430,7 @@ describe('dripFormField()', () => {
 
     expect(wrapper.instance().initialValue).toBe('context value');
 
-    wrapper = mockShallow(() => <div />, {
+    wrapper = mockShallow('text', () => <div />, {
       name,
       value: 'prop value',
     }, {
@@ -435,7 +448,7 @@ describe('dripFormField()', () => {
 
 
   test('Should be get context value', () => {
-    const flat = mockShallow(() => <div />, {
+    const flat = mockShallow('text', () => <div />, {
       name: 'fieldName',
     }, {
       values: {
@@ -445,7 +458,7 @@ describe('dripFormField()', () => {
 
     expect(flat.instance().getValue()).toBe('value');
 
-    const nest = mockShallow(() => <div />, {
+    const nest = mockShallow('text', () => <div />, {
       name: 'nest.name.field',
     }, {
       values: {
@@ -459,7 +472,7 @@ describe('dripFormField()', () => {
 
     expect(nest.instance().getValue()).toBe('nest value');
 
-    const array1 = mockShallow(() => <div />, {
+    const array1 = mockShallow('text', () => <div />, {
       name: 'array.0',
     }, {
       values: {
@@ -473,7 +486,7 @@ describe('dripFormField()', () => {
 
     expect(array1.instance().getValue()).toBe('array1 value');
 
-    const array2 = mockShallow(() => <div />, {
+    const array2 = mockShallow('text', () => <div />, {
       name: 'nest.0',
     }, {
       values: {
@@ -492,7 +505,7 @@ describe('dripFormField()', () => {
 
     expect(array2.instance().getValue()).toBe('array2 value');
 
-    const array3 = mockShallow(() => <div />, {
+    const array3 = mockShallow('text', () => <div />, {
       name: 'deep.0.nest.2',
     }, {
       values: {
@@ -519,8 +532,38 @@ describe('dripFormField()', () => {
   });
 
 
+  test('Should be get field type', () => {
+    const name = 'fieldName';
+    let wrapper;
+
+    wrapper = mockShallow('text', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('text');
+
+    wrapper = mockShallow('number', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('number');
+
+    wrapper = mockShallow('email', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('email');
+
+    wrapper = mockShallow('radio', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('radio');
+
+    wrapper = mockShallow('checkbox', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('checkbox');
+
+    wrapper = mockShallow('select', () => <div />, { name });
+    expect(wrapper.instance().getType()).toBe('select');
+
+    wrapper = mockShallow('select', () => <div />, { name, multiple: false });
+    expect(wrapper.instance().getType()).toBe('select');
+
+    wrapper = mockShallow('select', () => <div />, { name, multiple: true });
+    expect(wrapper.instance().getType()).toBe('select-multiple');
+  });
+
+
   test('Should be get errors', () => {
-    const flat = mockShallow(() => <div />, {
+    const flat = mockShallow('text', () => <div />, {
       name: 'fieldName',
     }, {
       errors: {
@@ -538,7 +581,7 @@ describe('dripFormField()', () => {
       'error 1-3',
     ]);
 
-    const deep = mockShallow(() => <div />, {
+    const deep = mockShallow('text', () => <div />, {
       name: 'deep.nest',
     }, {
       errors: {
@@ -556,7 +599,7 @@ describe('dripFormField()', () => {
       'error 2-3',
     ]);
 
-    const failure = mockShallow(() => <div />, {
+    const failure = mockShallow('text', () => <div />, {
       name: 'notfoundkey',
     }, {
       errors: {},
@@ -567,7 +610,7 @@ describe('dripFormField()', () => {
 
 
   test('Should be get first error', () => {
-    const flat = mockShallow(() => <div />, {
+    const flat = mockShallow('text', () => <div />, {
       name: 'fieldName',
     }, {
       errors: {
@@ -581,7 +624,7 @@ describe('dripFormField()', () => {
 
     expect(flat.instance().getError()).toBe('error 1-1');
 
-    const deep = mockShallow(() => <div />, {
+    const deep = mockShallow('text', () => <div />, {
       name: 'deep.nest',
     }, {
       errors: {
@@ -595,7 +638,7 @@ describe('dripFormField()', () => {
 
     expect(deep.instance().getError()).toBe('error 2-1');
 
-    const failure = mockShallow(() => <div />, {
+    const failure = mockShallow('text', () => <div />, {
       name: 'notfoundkey',
     }, {
       errors: {},
@@ -607,7 +650,7 @@ describe('dripFormField()', () => {
 
   test('Should be return validation status', () => {
     const name = 'fieldName';
-    const wrapper = mockShallow(() => <div />, {
+    const wrapper = mockShallow('text', () => <div />, {
       name,
     }, {
       errors: {
@@ -639,7 +682,7 @@ describe('dripFormField()', () => {
 
   test('Should be return whether being validating', () => {
     const name = 'fieldName';
-    const wrapper = mockShallow(() => <div />, {
+    const wrapper = mockShallow('text', () => <div />, {
       name,
     }, {
       validating: [
@@ -667,7 +710,7 @@ describe('dripFormField()', () => {
   test('Should be return touched status', () => {
     const name = 'fieldName';
 
-    const wrapper = mockShallow(() => <div />, {
+    const wrapper = mockShallow('text', () => <div />, {
       name,
     }, {
       touches: ['foo'],
@@ -691,7 +734,7 @@ describe('dripFormField()', () => {
   test('Should be return change status', () => {
     const name = 'fieldName';
 
-    const wrapper = mockShallow(() => <div />, {
+    const wrapper = mockShallow('text', () => <div />, {
       name,
     }, {
       dirties: ['foo'],
@@ -715,7 +758,7 @@ describe('dripFormField()', () => {
   test('Should be handle onChange', () => {
     const onChange = jest.fn();
 
-    const wrapper = mockMount(
+    const wrapper = mockMount('text',
       ({ input, props }) => (
         <input
           {...props}
@@ -740,8 +783,9 @@ describe('dripFormField()', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
     const updateDirty = jest.fn();
+    const updateTouched = jest.fn();
 
-    const wrapper = mockMount(
+    const wrapper = mockMount('text',
       ({ input, props }) => (
         <input
           {...props}
@@ -754,11 +798,13 @@ describe('dripFormField()', () => {
       }, {
         updateValue,
         updateDirty,
+        updateTouched,
       }
     );
 
     updateValue.mockReset();
     updateDirty.mockReset();
+    updateTouched.mockReset();
 
     wrapper.find('input').simulate('change', mockEvent({
       target: { value: 'text value' },
@@ -777,6 +823,8 @@ describe('dripFormField()', () => {
       true,
     ]);
 
+    expect(updateTouched.mock.calls.length).toBe(0);
+
     wrapper.find('input').simulate('change', mockEvent({
       target: { value: '' },
     }));
@@ -793,14 +841,86 @@ describe('dripFormField()', () => {
       name,
       false,
     ]);
+
+    expect(updateTouched.mock.calls.length).toBe(0);
+  });
+
+
+  test('Should be handle radio onChange', () => {
+    const name = 'fieldName';
+    const updateValue = jest.fn();
+    const updateTouched = jest.fn();
+
+    const wrapper = mockMount('radio', ({ input, props }) => (
+      <input
+        {...props}
+        {...input}
+        type="radio"
+      />
+    ), {
+      name,
+      value: 'text value',
+      checked: false,
+    }, {
+      updateValue,
+      updateTouched,
+    });
+
+    updateValue.mockReset();
+    updateTouched.mockReset();
+
+    wrapper.find('input').simulate('change', mockEvent({
+      target: {
+        type: 'radio',
+        value: 'text value',
+        checked: true,
+      },
+    }));
+
+    expect(updateValue.mock.calls.length).toBe(1);
+    expect(updateValue.mock.calls[0]).toEqual([
+      name,
+      'text value',
+      true,
+    ]);
+
+    expect(updateTouched.mock.calls.length).toBe(1);
+    expect(updateTouched.mock.calls[0]).toEqual([
+      name,
+      true,
+      false,
+    ]);
+
+    wrapper.find('input').simulate('change', mockEvent({
+      target: {
+        type: 'radio',
+        value: 'text value',
+        checked: false,
+      },
+    }));
+
+    expect(updateValue.mock.calls.length).toBe(2);
+    expect(updateValue.mock.calls[1]).toEqual([
+      name,
+      'text value',
+      true,
+    ]);
+
+    expect(updateTouched.mock.calls.length).toBe(2);
+    expect(updateTouched.mock.calls[1]).toEqual([
+      name,
+      true,
+      false,
+    ]);
   });
 
 
   test('Should be handle checkbox onChange', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
+    const updateTouched = jest.fn();
 
-    const wrapper = mockMount(({ input, props }) => (
+    const wrapper = mockMount('checkbox', ({ input, props }) => (
       <input
         {...props}
         {...input}
@@ -812,9 +932,11 @@ describe('dripFormField()', () => {
       checked: false,
     }, {
       updateValue,
+      updateTouched,
     });
 
     updateValue.mockReset();
+    updateTouched.mockReset();
 
     wrapper.find('input').simulate('change', mockEvent({
       target: {
@@ -827,8 +949,15 @@ describe('dripFormField()', () => {
     expect(updateValue.mock.calls.length).toBe(1);
     expect(updateValue.mock.calls[0]).toEqual([
       name,
+      'text value',
       true,
+    ]);
+
+    expect(updateTouched.mock.calls.length).toBe(1);
+    expect(updateTouched.mock.calls[0]).toEqual([
+      name,
       true,
+      false,
     ]);
 
     wrapper.find('input').simulate('change', mockEvent({
@@ -845,6 +974,13 @@ describe('dripFormField()', () => {
       '',
       true,
     ]);
+
+    expect(updateTouched.mock.calls.length).toBe(2);
+    expect(updateTouched.mock.calls[1]).toEqual([
+      name,
+      true,
+      false,
+    ]);
   });
 
 
@@ -852,7 +988,7 @@ describe('dripFormField()', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
 
-    const wrapper = mockMount(({ input, props }) => (
+    const wrapper = mockMount('file', ({ input, props }) => (
       <input
         {...props}
         {...input}
@@ -894,15 +1030,15 @@ describe('dripFormField()', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
 
-    const wrapper = mockMount(({ input, props }) => (
+    const wrapper = mockMount('select', ({ input, props }) => (
       <select
         {...props}
         {...input}
-        multiple
         value={[]}
       />
     ), {
       name,
+      multiple: true,
     }, {
       updateValue,
     });
@@ -932,41 +1068,59 @@ describe('dripFormField()', () => {
   });
 
 
-  test('Should be handle original onChange', () => {
-    const name = 'fieldName';
-    const updateValue = jest.fn();
+  // test('Should be handle onBlur', () => {
+  //   const name = 'blurFieldName';
+  //   const onBlur = jest.fn();
+  //   const wrapper = mockMount('text', ({ input, props }) => (
+  //     <input
+  //     {...props}
+  //     {...input}
+  //     />
+  //   ), {
+  //     name,
+  //     onBlur,
+  //   });
+  //
+  //   expect(onBlur.mock.calls.length).toBe(0);
+  //
+  //   wrapper.find('input').simulate('blur');
+  //
+  //   expect(onBlur.mock.calls.length).toBe(1);
+  // });
 
-    const wrapper = mockMount(({ input, props }) => (
-      <input
-        {...props}
-        {...input}
-        multiple
-        onChange={() => input.onChange('test value')}
-      />
-    ), {
-      name,
-    }, {
-      updateValue,
-    });
 
-    updateValue.mockReset();
-
-    wrapper.find('input').simulate('change');
-
-    expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0]).toEqual([
-      name,
-      'test value',
-      true,
-    ]);
-  });
+  // test('Should be update touch status when handleBlur', () => {
+  //   const name = 'blurFieldName';
+  //   const updateTouched = jest.fn();
+  //   const wrapper = mockMount('text', ({ input, props }) => (
+  //     <input
+  //     {...input}
+  //     {...props}
+  //     />
+  //   ), {
+  //     name,
+  //   }, {
+  //     updateTouched,
+  //   });
+  //
+  //   expect(updateTouched.mock.calls.length).toBe(0);
+  //
+  //   wrapper.find('input').simulate('blur');
+  //
+  //   expect(updateTouched.mock.calls.length).toBe(1);
+  //   expect(updateTouched.mock.calls[0]).toEqual([
+  //     name,
+  //     true,
+  //     true,
+  //   ]);
+  // });
 
 
   test('Should be parse value', () => {
     const name = 'testField';
     const parser = jest.fn((v, k) => `${k} ${v}`);
     const updateValue = jest.fn();
-    const wrapper = mockMount(({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, props }) => (
       <input
         {...props}
         {...input}
@@ -1001,59 +1155,11 @@ describe('dripFormField()', () => {
   });
 
 
-  test('Should be handle onBlur', () => {
-    const name = 'blurFieldName';
-    const onBlur = jest.fn();
-    const wrapper = mockMount(({ input, props }) => (
-      <input
-        {...props}
-        {...input}
-      />
-    ), {
-      name,
-      onBlur,
-    });
-
-    expect(onBlur.mock.calls.length).toBe(0);
-
-    wrapper.find('input').simulate('blur');
-
-    expect(onBlur.mock.calls.length).toBe(1);
-  });
-
-
-  test('Should be update touch status when handleBlur', () => {
-    const name = 'blurFieldName';
-    const updateTouched = jest.fn();
-    const wrapper = mockMount(({ input, props }) => (
-      <input
-        {...input}
-        {...props}
-      />
-    ), {
-      name,
-    }, {
-      updateTouched,
-    });
-
-    expect(updateTouched.mock.calls.length).toBe(0);
-
-    wrapper.find('input').simulate('blur');
-
-    expect(updateTouched.mock.calls.length).toBe(1);
-    expect(updateTouched.mock.calls[0]).toEqual([
-      name,
-      true,
-      true,
-    ]);
-  });
-
-
   test('Should be format value', () => {
     const name = 'formatField';
     const formatter = jest.fn((v, k) => `${k} ${v}`);
 
-    const wrapper = mockMount(({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, props }) => (
       <input
         {...props}
         {...input}
@@ -1076,6 +1182,4 @@ describe('dripFormField()', () => {
 
     expect(wrapper.find('input').prop('value')).toBe(`${name} text value`);
   });
-
-  // @TODO: onDragStart, onDrop
 });

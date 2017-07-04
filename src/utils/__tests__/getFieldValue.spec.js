@@ -6,7 +6,7 @@ const mock = (
   value,
   target = {},
   others = {},
-) => getFieldValue({
+) => getFieldValue(type, {
   stopPropagation: () => {},
   preventDefault: () => {},
   target: {
@@ -22,8 +22,8 @@ describe('utils#getFieldValue', () => {
   test('Should be get checkbox value', () => {
     expect(mock('checkbox', null)).toBe('');
     expect(mock('checkbox', '')).toBe('');
-    expect(mock('checkbox', '', { checked: true })).toBe(true);
-    expect(mock('checkbox', '', { checked: false })).toBe('');
+    expect(mock('checkbox', 'foo', { checked: true })).toBe('foo');
+    expect(mock('checkbox', 'foo', { checked: false })).toBe('');
     expect(mock('checkbox', '', {})).toBe('');
   });
 
@@ -85,9 +85,9 @@ describe('utils#getFieldValue', () => {
 
 
   test('Should be get obtain value other than event', () => {
-    expect(getFieldValue(null)).toBe(null);
-    expect(getFieldValue(undefined)).toBe(undefined);
-    expect(getFieldValue('string')).toBe('string');
-    expect(getFieldValue(100)).toBe(100);
+    expect(getFieldValue('text', null)).toBe(null);
+    expect(getFieldValue('text', undefined)).toBe(undefined);
+    expect(getFieldValue('text', 'string')).toBe('string');
+    expect(getFieldValue('text', 100)).toBe(100);
   });
 });

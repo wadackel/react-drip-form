@@ -52,6 +52,10 @@ export type LabelList = {
 
 export type DFContext = {
   dripForm: boolean;
+  group: ?{
+    name: string;
+    multiple: boolean;
+  };
   register: Function;
   unregister: Function;
   updateValue: (name: string, value: any, validate: boolean) => void;
@@ -70,6 +74,10 @@ export type DFContext = {
 
 export const DFContextTypes = {
   dripForm: PropTypes.bool.isRequired,
+  group: PropTypes.shape({
+    name: PropTypes.string,
+    multiple: PropTypes.bool,
+  }),
   register: PropTypes.func.isRequired,
   unregister: PropTypes.func.isRequired,
   updateValue: PropTypes.func.isRequired,
@@ -86,6 +94,10 @@ export const DFContextTypes = {
   touches: PropTypes.array.isRequired,
 };
 
+export type FieldType = 'button' | 'checkbox' | 'color' | 'date' | 'datetime-local' | 'email' | 'file' | 'hidden' | 'image' | 'month' | 'number' | 'password' | 'radio' | 'range' | 'reset' | 'search' | 'submit' | 'tel' | 'text' | 'time' | 'url' | 'week' | 'select';
+
+export type InternalFieldType = FieldType | 'select-multiple';
+
 export type FieldFormatter = (value: any, name: string) => any;
 
 export type FieldParser = (value: any, name: string) => any;
@@ -96,10 +108,8 @@ export type FieldProps = {
     onChange: Function;
     onFocus: Function;
     onBlur: Function;
-    onDragStart: Function;
-    onDrop: Function;
   };
-  status: {
+  meta: {
     error: ?ErrorMessage;
     errors: ?ErrorMessageList;
     valid: boolean;

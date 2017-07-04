@@ -1,5 +1,6 @@
 // @flow
 import isEvent from './isEvent';
+import type { InternalFieldType } from '../types';
 
 const getSelectedValues = (options: ?HTMLOptionsCollection): string[] => {
   const results: string[] = [];
@@ -16,14 +17,14 @@ const getSelectedValues = (options: ?HTMLOptionsCollection): string[] => {
   return results;
 };
 
-const getFieldValue = (e: any): any => {
+const getFieldValue = (type: InternalFieldType, e: any): any => {
   if (!isEvent(e)) return e;
 
   const { target, dataTransfer } = e;
-  const { type, value, checked, files, options } = target;
+  const { value, checked, files, options } = target;
 
   switch (type) {
-    case 'checkbox': return checked || '';
+    case 'checkbox': return checked ? value : '';
     case 'file': return files || (dataTransfer && dataTransfer.files);
     case 'select-multiple': return getSelectedValues(options);
     default: return value;

@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 import invariant from 'invariant';
 import { Validator } from 'drip-form-validator'; // eslint-disable-line import/no-extraneous-dependencies
 import * as dot from 'dot-wild';
+import forEach from 'lodash.foreach';
 import isPlainObject from 'lodash.isplainobject';
 import isEqual from 'lodash.isequal';
 import isArray from './utils/isArray';
+import * as arrays from './utils/arrays';
 import hasProp from './utils/hasProp';
 import cancelEvent from './utils/cancelEvent';
 import getShallowFilteredValues from './utils/getShallowFilteredValues';
@@ -58,11 +60,12 @@ type DotIndex = number | string;
 
 export type Props = {
   values?: Values;
-  onChange?: Function; // eslint-disable-line react/no-unused-prop-types
+  onInitialize?: Function;
+  onChange?: Function;
   onClear?: Function;
   onReset?: Function;
-  onValidSubmit?: Function; // eslint-disable-line react/no-unused-prop-types
-  onInvalidSubmit?: Function; // eslint-disable-line react/no-unused-prop-types
+  onValidSubmit?: Function;
+  onInvalidSubmit?: Function;
 };
 
 export type State = {
@@ -85,6 +88,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
       static childContextTypes = DFContextTypes;
       static defaultProps = {
         values: {},
+        onInitialize: null,
         onChange: null,
         onClear: null,
         onReset: null,
@@ -125,6 +129,10 @@ const dripForm = (formOptions: FormOptions = {}) => {
           touches: [],
           dirties: [],
         };
+
+        if (typeof props.onInitialize === 'function') {
+          props.onInitialize(this);
+        }
       }
 
       getChildContext() {
@@ -138,6 +146,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
 
         return {
           dripForm: true,
+          group: null,
           register: this.register,
           unregister: this.unregister,
           updateValue: this.updateValue,
@@ -202,6 +211,12 @@ const dripForm = (formOptions: FormOptions = {}) => {
         const { onClear } = this.props;
 
         this.setValues({});
+        this.setErrors({});
+        this.setStateIfMounted({
+          validating: [],
+          touches: [],
+          dirties: [],
+        });
 
         if (typeof onClear === 'function') {
           onClear(this);
@@ -212,6 +227,12 @@ const dripForm = (formOptions: FormOptions = {}) => {
         const { onReset } = this.props;
 
         this.setValues(this.initialValues());
+        this.setErrors({});
+        this.setStateIfMounted({
+          validating: [],
+          touches: [],
+          dirties: [],
+        });
 
         if (typeof onReset === 'function') {
           onReset(this);
@@ -237,8 +258,18 @@ const dripForm = (formOptions: FormOptions = {}) => {
         return this.state.errors;
       }
 
-      setErrors(errors: Errors): void {
-        this.setStateIfMounted({ errors });
+      setErrors(errors: { [key: string]: string | string[] }): void {
+        const nextErrors: Errors = {};
+
+        forEach(errors, (error: string | string[], name: string) => {
+          if (error) {
+            nextErrors[name] = isArray(error) ? (error: any) : [(error: any)];
+          }
+        });
+
+        this.setStateIfMounted({
+          errors: nextErrors,
+        });
       }
 
       getField(name: string): FieldComponent {
@@ -253,7 +284,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
         const { validating } = this.state;
 
         return name
-          ? validating.indexOf(name) > -1
+          ? arrays.includes(validating, name)
           : validating.length > 0;
       }
 
@@ -265,13 +296,12 @@ const dripForm = (formOptions: FormOptions = {}) => {
         return this.state.dirties.length > 0;
       }
 
-      register = (field: FieldComponent): void => {
-        this.fields[field.props.name] = field;
+      register = (name: string, field: FieldComponent): void => {
+        this.fields[name] = field;
       };
 
-      unregister = (field: FieldComponent): void => {
+      unregister = (name: string): void => {
         const { values, errors, touches, dirties } = this.state;
-        const { name } = field.props;
 
         delete this.fields[name];
         delete errors[name];
@@ -287,7 +317,6 @@ const dripForm = (formOptions: FormOptions = {}) => {
 
       updateValue = (name: string, value: any, validate: boolean): void => {
         const values = getShallowFilteredValues(dot.set(this.values, name, value));
-
         this.setValues(values);
 
         if (validate) {
@@ -309,7 +338,9 @@ const dripForm = (formOptions: FormOptions = {}) => {
             this.validate();
 
             if (this.isValid(name)) {
-              this.asyncValidate(name);
+              this.asyncValidate(name)
+                .then(() => {})
+                .catch(() => {});
             }
           }
         }
@@ -406,10 +437,11 @@ const dripForm = (formOptions: FormOptions = {}) => {
       fieldPush = (field: string, value: any): void => {
         const current = this.fieldGetArray(field);
 
-        this.setValues(dot.set(this.values, field, [
-          ...current,
-          value,
-        ]));
+        this.setValues(dot.set(
+          this.values,
+          field,
+          arrays.push(current, value)
+        ));
 
         this.validate();
       };
@@ -421,9 +453,9 @@ const dripForm = (formOptions: FormOptions = {}) => {
           return undefined;
         }
 
-        const value = current.pop();
+        const value = arrays.last(current);
 
-        this.setValues(dot.set(this.values, field, current));
+        this.setValues(dot.set(this.values, field, arrays.pop(current)));
         this.validate();
 
         return value;
@@ -436,9 +468,9 @@ const dripForm = (formOptions: FormOptions = {}) => {
           return undefined;
         }
 
-        const value = current.shift();
+        const value = arrays.first(current);
 
-        this.setValues(dot.set(this.values, field, current));
+        this.setValues(dot.set(this.values, field, arrays.shift(current)));
         this.validate();
 
         return value;
@@ -447,10 +479,11 @@ const dripForm = (formOptions: FormOptions = {}) => {
       fieldUnshift = (field: string, ...values: any[]): void => {
         const current = this.fieldGetArray(field);
 
-        this.setValues(dot.set(this.values, field, [
-          ...values,
-          ...current,
-        ]));
+        this.setValues(dot.set(
+          this.values,
+          field,
+          arrays.unshift(current, ...values)
+        ));
 
         this.validate();
       };
@@ -458,33 +491,31 @@ const dripForm = (formOptions: FormOptions = {}) => {
       fieldSwap = (field: string, indexA: number, indexB: number): any => {
         const current = this.fieldGetArray(field);
 
-        if (!hasProp(current, indexA) || !hasProp(current, indexB)) {
+        if (current.length < 2) {
           return;
         }
 
-        const b = current[indexA];
-        current[indexA] = current[indexB];
-        current[indexB] = b;
+        this.setValues(dot.set(
+          this.values,
+          field,
+          arrays.swap(current, indexA, indexB)
+        ));
 
-        this.setValues(dot.set(this.values, field, current));
         this.validate();
       };
 
       fieldMove = (field: string, from: number, to: number): any => {
         const current = this.fieldGetArray(field);
 
-        if (!hasProp(current, from) || from === to) {
+        if (current.length < 2) {
           return;
         }
 
-        const value = current[from];
-        const next = current.slice(0, from).concat(current.slice(from + 1));
-
-        this.setValues(dot.set(this.values, field, [
-          ...next.slice(0, to),
-          value,
-          ...next.slice(to),
-        ]));
+        this.setValues(dot.set(
+          this.values,
+          field,
+          arrays.move(current, from, to)
+        ));
 
         this.validate();
       };
@@ -640,10 +671,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
 
 
       render() {
-        const {
-          values,
-          errors,
-        } = this.state;
+        const { values, errors } = this.state;
 
         const valid = this.isValid();
         const validating = this.isValidating();
@@ -657,7 +685,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
           ...this.props,
           values,
           errors,
-          status: {
+          meta: {
             valid,
             invalid,
             touched,

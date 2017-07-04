@@ -1,7 +1,8 @@
 import createFieldProps from '../createFieldProps';
 
-const mock = (input = {}, status = {}, props = {}) => ({
+const mock = (input = {}, meta = {}, props = {}) => ({
   input: {
+    name: 'name',
     value: 'value',
     onChange: null,
     onFocus: null,
@@ -10,7 +11,7 @@ const mock = (input = {}, status = {}, props = {}) => ({
     onDrop: null,
     ...input,
   },
-  status: {
+  meta: {
     error: {},
     errors: {},
     valid: {},
@@ -19,7 +20,7 @@ const mock = (input = {}, status = {}, props = {}) => ({
     untouched: false,
     dirty: false,
     pristine: false,
-    ...status,
+    ...meta,
   },
   props: {
     ...props,
@@ -32,6 +33,27 @@ describe('utils#createFieldProps()', () => {
   let props;
 
 
+  test('Should be create text type props', () => {
+    type = 'text';
+
+    props = mock({
+      value: 'string value',
+    });
+
+    expect(createFieldProps(type, 'string value', props)).toEqual(mock({
+      value: 'string value',
+    }));
+
+    props = mock({
+      value: 'foo',
+    });
+
+    expect(createFieldProps(type, 'bar', props)).toEqual(mock({
+      value: 'bar',
+    }));
+  });
+
+
   test('Should be create checkbox props', () => {
     type = 'checkbox';
 
@@ -39,24 +61,36 @@ describe('utils#createFieldProps()', () => {
       value: 'string value',
     });
 
-    expect(createFieldProps(type, props)).toEqual(mock({
-      value: true,
+    expect(createFieldProps(type, 'string value', props)).toEqual(mock({
+      value: 'string value',
+      checked: true,
     }));
 
     props = mock({
-      value: false,
+      value: 'foo',
     });
 
-    expect(createFieldProps(type, props)).toEqual(mock({
-      value: false,
+    expect(createFieldProps(type, 'bar', props)).toEqual(mock({
+      value: 'foo',
+      checked: false,
     }));
 
     props = mock({
-      value: null,
+      value: 'foo',
     });
 
-    expect(createFieldProps(type, props)).toEqual(mock({
-      value: false,
+    expect(createFieldProps(type, ['foo', 'bar'], props)).toEqual(mock({
+      value: 'foo',
+      checked: true,
+    }));
+
+    props = mock({
+      value: 'baz',
+    });
+
+    expect(createFieldProps(type, ['foo', 'bar'], props)).toEqual(mock({
+      value: 'baz',
+      checked: false,
     }));
   });
 
@@ -65,26 +99,42 @@ describe('utils#createFieldProps()', () => {
     type = 'radio';
 
     props = mock({
-      value: 'value',
-    }, {}, {
-      value: 'value',
+      value: 'foo',
     });
 
-    expect(createFieldProps(type, props)).toEqual(mock({
-      value: 'value',
-    }, {}, {
+    expect(createFieldProps(type, 'foo', props)).toEqual(mock({
+      value: 'foo',
       checked: true,
     }));
 
     props = mock({
-    }, {}, {
-      value: 'bar',
+      value: 'foo',
     });
 
-    expect(createFieldProps(type, props)).toEqual(mock({
-      value: 'bar',
-    }, {}, {
+    expect(createFieldProps(type, 'bar', props)).toEqual(mock({
+      value: 'foo',
+      checked: false,
+    }));
+
+    props = mock({
+      value: 'foo',
+    });
+
+    expect(createFieldProps(type, null, props)).toEqual(mock({
+      value: 'foo',
+      checked: false,
+    }));
+
+    props = mock({
+      value: 'foo',
+    });
+
+    expect(createFieldProps(type, [1, 'foo', 2], props)).toEqual(mock({
+      value: 'foo',
       checked: false,
     }));
   });
+
+  // @TODO: select-multiple
+  // @TODO: file
 });

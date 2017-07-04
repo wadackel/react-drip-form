@@ -73,7 +73,7 @@ describe('dripForm()', () => {
 
     expect(wrapper.prop('values')).toEqual({});
     expect(wrapper.prop('errors')).toEqual({});
-    expect(wrapper.prop('status')).toEqual({
+    expect(wrapper.prop('meta')).toEqual({
       valid: true,
       invalid: false,
       touched: false,
@@ -199,17 +199,29 @@ describe('dripForm()', () => {
     form.setErrors(values);
     expect(form.getErrors()).toEqual(values);
 
-    values = { key: 'value' };
+    values = { key: ['value'] };
     form.setErrors(values);
     expect(form.getErrors()).toEqual(values);
 
     values = {
-      foo: 'bar',
+      foo: ['bar'],
       array: [1, 2, 3],
-      deep: { nest: 'value' },
+      'deep.nest': ['error'],
     };
     form.setErrors(values);
     expect(form.getErrors()).toEqual(values);
+
+    form.setErrors({
+      foo: 'foo-error',
+      bar: ['bar-error'],
+      baz: null,
+      hoge: '',
+    });
+
+    expect(form.getErrors()).toEqual({
+      foo: ['foo-error'],
+      bar: ['bar-error'],
+    });
   });
 
 
@@ -241,18 +253,27 @@ describe('dripForm()', () => {
     const form = mockShallow(() => <div />).instance();
     const foo = mockField('foo');
     const bar = mockField('bar');
+    const hoge = mockField('hoge[]');
 
     expect(form.fields).toEqual({});
 
-    form.register(foo);
+    form.register('foo', foo);
 
     expect(form.fields).toEqual({ foo });
 
-    form.register(bar);
+    form.register('bar', bar);
 
     expect(form.fields).toEqual({
       foo,
       bar,
+    });
+
+    form.register('hoge', hoge);
+
+    expect(form.fields).toEqual({
+      foo,
+      bar,
+      hoge,
     });
   });
 
@@ -261,20 +282,27 @@ describe('dripForm()', () => {
     const form = mockShallow(() => <div />).instance();
     const foo = mockField('foo');
     const bar = mockField('bar');
+    const hoge = mockField('hoge[]');
 
-    form.register(foo);
-    form.register(bar);
+    form.register('foo', foo);
+    form.register('bar', bar);
+    form.register('hoge', hoge);
 
     expect(form.fields).toEqual({
       foo,
       bar,
+      hoge,
     });
 
-    form.unregister(foo);
+    form.unregister('foo');
 
-    expect(form.fields).toEqual({ bar });
+    expect(form.fields).toEqual({ bar, hoge });
 
-    form.unregister(bar);
+    form.unregister('bar');
+
+    expect(form.fields).toEqual({ hoge });
+
+    form.unregister('hoge');
 
     expect(form.fields).toEqual({});
   });
@@ -306,10 +334,10 @@ describe('dripForm()', () => {
     const arrayDeepErrors02 = ['array-deep.0.2-error-1'];
     const arrayDeepErrors10 = ['array-deep.1.0-error-1'];
 
-    form.register(flat);
-    form.register(deep);
-    form.register(array);
-    form.register(arrayDeep);
+    form.register('flat', flat);
+    form.register('deep.nest.key', deep);
+    form.register('arra.0', array);
+    form.register('arrayDeep.1.1', arrayDeep);
 
     form.setValues({
       flat: flatValue,
@@ -351,7 +379,7 @@ describe('dripForm()', () => {
       ],
     });
 
-    form.unregister(flat);
+    form.unregister('flat');
 
     expect(wrapper.state('values')).toEqual({
       deep: deepValue,
@@ -389,7 +417,7 @@ describe('dripForm()', () => {
       'arrayDeep.1.0',
     ]);
 
-    form.unregister(deep);
+    form.unregister('deep.nest.key', deep);
 
     expect(wrapper.state('values')).toEqual({
       deep: { nest: {} },
@@ -424,7 +452,7 @@ describe('dripForm()', () => {
       'arrayDeep.1.0',
     ]);
 
-    form.unregister(array);
+    form.unregister('array.0', array);
 
     expect(wrapper.state('values')).toEqual({
       deep: { nest: {} },
@@ -456,7 +484,7 @@ describe('dripForm()', () => {
       'arrayDeep.1.0',
     ]);
 
-    form.unregister(arrayDeep);
+    form.unregister('arrayDeep.1.1', arrayDeep);
 
     expect(wrapper.state('values')).toEqual({
       deep: { nest: {} },
@@ -496,12 +524,12 @@ describe('dripForm()', () => {
   test('Should be get initial values', () => {
     const form = mockShallow(() => <div />).instance();
 
-    form.register(mockField('foo', {}, 'value1'));
-    form.register(mockField('bar.baz', {}, 'value2'));
-    form.register(mockField('hoge', {}, null));
-    form.register(mockField('fuga', {}, undefined));
-    form.register(mockField('array.0', {}, 0));
-    form.register(mockField('array.1', {}, 1));
+    form.register('foo', mockField('foo', {}, 'value1'));
+    form.register('bar.baz', mockField('bar.baz', {}, 'value2'));
+    form.register('hoge', mockField('hoge', {}, null));
+    form.register('fuga', mockField('fuga', {}, undefined));
+    form.register('array.0', mockField('array.0', {}, 0));
+    form.register('array.1', mockField('array.1', {}, 1));
 
     const values = {
       foo: 'before-value1',
@@ -511,7 +539,6 @@ describe('dripForm()', () => {
       hoge: 'before-hoge',
       array: [100, 200],
     };
-
     form.setValues(values);
 
     expect(form.initialValues()).toEqual({
@@ -525,17 +552,26 @@ describe('dripForm()', () => {
   });
 
 
-  test('Should be clear values', () => {
+  test('Should be clear values and errors', () => {
     const onClear = jest.fn();
     const wrapper = mockShallow(() => <div />, { onClear });
     const form = wrapper.instance();
     let values;
+    let errors;
 
     values = { key: 'value' };
+    errors = { key: ['error1', 'error2'] };
     form.setValues(values);
+    form.setErrors(errors);
+    wrapper.setState({ touches: ['key'], dirties: ['key'], validating: ['key'] });
     expect(form.getValues()).toEqual(values);
+    expect(form.getErrors()).toEqual(errors);
     form.clear();
     expect(form.getValues()).toEqual({});
+    expect(form.getErrors()).toEqual({});
+    expect(wrapper.state('touches')).toEqual([]);
+    expect(wrapper.state('dirties')).toEqual([]);
+    expect(wrapper.state('validating')).toEqual([]);
     expect(onClear.mock.calls.length).toBe(1);
     expect(onClear.mock.calls[0]).toEqual([form]);
 
@@ -545,25 +581,43 @@ describe('dripForm()', () => {
       },
       array: [1, 2, 3],
     };
+    errors = {
+      'foo.bar': ['error1', 'error2'],
+      'array.0': ['error'],
+      'array.1': ['error'],
+      'array.2': ['error'],
+    };
     form.setValues(values);
+    form.setErrors(errors);
+    wrapper.setState({
+      touches: ['foo.bar', 'array.1'],
+      dirties: ['foo.bar', 'array.1'],
+      validating: ['foo.bar', 'array.1'],
+    });
     expect(form.getValues()).toEqual(values);
+    expect(form.getErrors()).toEqual(errors);
     form.clear();
     expect(form.getValues()).toEqual({});
+    expect(form.getErrors()).toEqual({});
+    expect(wrapper.state('touches')).toEqual([]);
+    expect(wrapper.state('dirties')).toEqual([]);
+    expect(wrapper.state('validating')).toEqual([]);
     expect(onClear.mock.calls.length).toBe(2);
     expect(onClear.mock.calls[1]).toEqual([form]);
   });
 
 
-  test('Should be reset values', () => {
-    const form = mockShallow(() => <div />).instance();
+  test('Should be reset values and errors', () => {
+    const wrapper = mockShallow(() => <div />);
+    const form = wrapper.instance();
 
-    form.register(mockField('foo', {}, 'value1'));
-    form.register(mockField('bar.baz', {}, 'value2'));
-    form.register(mockField('hoge', {}, null));
-    form.register(mockField('fuga', {}, undefined));
-    form.register(mockField('array.0', {}, 0));
-    form.register(mockField('array.1', {}, 1));
-    form.register(mockField('deep.0.array.0', {}, 10));
+    form.register('foo', mockField('foo', {}, 'value1'));
+    form.register('bar.baz', mockField('bar.baz', {}, 'value2'));
+    form.register('hoge', mockField('hoge', {}, null));
+    form.register('fuga', mockField('fuga', {}, undefined));
+    form.register('array.0', mockField('array.0', {}, 0));
+    form.register('array.1', mockField('array.1', {}, 1));
+    form.register('deep.0.array.0', mockField('deep.0.array.0', {}, 10));
 
     const values = {
       foo: 'foo',
@@ -580,9 +634,19 @@ describe('dripForm()', () => {
       ],
     };
 
-    form.setValues(values);
-    expect(form.getValues()).toEqual(values);
+    const errors = {
+      foo: ['err1', 'err2'],
+      'array.1': ['err'],
+      'deep.1.array.0': ['err'],
+    };
 
+    form.setValues(values);
+    form.setErrors(errors);
+    wrapper.setState({
+      touches: ['foo'],
+      dirties: ['bar.baz'],
+      validating: ['hoge', 'fuga'],
+    });
     form.reset();
 
     expect(form.getValues()).toEqual({
@@ -595,6 +659,11 @@ describe('dripForm()', () => {
         { array: [10] },
       ],
     });
+
+    expect(form.getErrors()).toEqual({});
+    expect(wrapper.state('touches')).toEqual([]);
+    expect(wrapper.state('dirties')).toEqual([]);
+    expect(wrapper.state('validating')).toEqual([]);
   });
 
 
@@ -603,8 +672,8 @@ describe('dripForm()', () => {
     const foo = mockField('foo');
     const bar = mockField('bar');
 
-    form.register(foo);
-    form.register(bar);
+    form.register('foo', foo);
+    form.register('bar', bar);
 
     expect(form.getField('foo')).toEqual(foo);
     expect(form.getField('bar')).toEqual(bar);
@@ -768,9 +837,7 @@ describe('dripForm()', () => {
 
     form.updateValidations('foo', {}, true);
     expect(validate.mock.calls.length).toBe(1);
-    expect(validator.getRules()).toEqual({
-      foo: {},
-    });
+    expect(validator.getRules()).toEqual({});
 
     form.updateValidations('foo', { key: 'value' }, true);
     expect(validate.mock.calls.length).toBe(2);
@@ -809,7 +876,6 @@ describe('dripForm()', () => {
         key: 'value',
         key2: 'value2',
       },
-      'foo.bar': {},
     });
 
     form.updateValidations('foo.bar', { key: 'value' }, false);
@@ -1631,7 +1697,7 @@ describe('dripForm()', () => {
 
     form.fieldMove('array', 0, 10);
     expect(wrapper.state('values')).toEqual({ array: [1] });
-    expect(validate.mock.calls.length).toBe(1);
+    expect(validate.mock.calls.length).toBe(0);
 
     validate.mockClear();
 
@@ -2019,12 +2085,12 @@ describe('dripForm()', () => {
     form.validator.asyncValidate = asyncValidate;
     form.validator.getAllErrorMessages = getAllErrorMessages;
 
-    form.register(mockField('foo'));
-    form.register(mockField('bar'));
-    form.register(mockField('hoge.fuga'));
-    form.register(mockField('nest.array.0'));
-    form.register(mockField('nest.array.1'));
-    form.register(mockField('nest.array.2'));
+    form.register('foo', mockField('foo'));
+    form.register('bar', mockField('bar'));
+    form.register('hoge.fuga', mockField('hoge.fuga'));
+    form.register('nest.array.0', mockField('nest.array.0'));
+    form.register('nest.array.1', mockField('nest.array.1'));
+    form.register('nest.array.2', mockField('nest.array.2'));
 
     const values = {
       foo: 'foo',
@@ -2175,6 +2241,7 @@ describe('dripForm()', () => {
 
 
   test('Should be pass form state and props', () => {
+    const onInitialize = () => {};
     const onChange = () => {};
     const onReset = () => {};
     const onClear = () => {};
@@ -2182,6 +2249,7 @@ describe('dripForm()', () => {
     const onInvalidSubmit = () => {};
 
     const wrapper = mockShallow(() => <div />, {
+      onInitialize,
       onChange,
       onReset,
       onClear,
@@ -2206,6 +2274,7 @@ describe('dripForm()', () => {
     });
 
     expect(wrapper.props()).toEqual({
+      onInitialize,
       onChange,
       onReset,
       onClear,
@@ -2215,7 +2284,7 @@ describe('dripForm()', () => {
       values: { key: 'value' },
       errors: { foo: { bar: 'error' } },
 
-      status: {
+      meta: {
         valid: true,
         invalid: false,
         touched: false,

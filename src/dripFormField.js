@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import invariant from 'invariant';
 import isEqual from 'lodash.isequal';
 import * as dot from 'dot-wild';
+import * as arrays from './utils/arrays';
 import hasProp from './utils/hasProp';
 import makeDisplayName from './utils/makeDisplayName';
+import getFieldType from './utils/getFieldType';
 import getFieldValue from './utils/getFieldValue';
 import formatFieldValue, { defaultFormatter } from './utils/formatFieldValue';
 import parseFieldValue from './utils/parseFieldValue';
@@ -15,13 +17,14 @@ import type {
   DFContext,
   ErrorMessage,
   ErrorMessageList,
+  FieldType,
+  InternalFieldType,
   FieldFormatter,
   FieldParser,
   Validations,
   Normalizers,
   MessageList,
 } from './types';
-
 
 export type FieldOptions = {
   defaultFormatter?: ?FieldFormatter;
@@ -33,6 +36,9 @@ const defaultFieldOptions: FieldOptions = {
   defaultFormatter,
 };
 
+const normalizeFieldName = (name: string): string => (
+  name.replace(/\[\]$/, '')
+);
 
 export type Props = {
   name: string;
@@ -46,8 +52,6 @@ export type Props = {
   onChange?: Function;
   onBlur?: Function;
   onFocus?: Function;
-  onDragStart?: Function;
-  onDrop?: Function;
 };
 
 export type State = {
@@ -57,7 +61,7 @@ const getPropsValue = (props: Props, defaultValue: any): any => (
   hasProp(props, 'value') ? props.value : defaultValue
 );
 
-const dripFormField = (fieldOptions: FieldOptions = {}) => {
+const dripFormField = (fieldType: FieldType = 'text', fieldOptions: FieldOptions = {}) => {
   const options: FieldOptions = {
     ...defaultFieldOptions,
     ...fieldOptions,
@@ -84,31 +88,56 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
       context: DFContext;
       props: Props;
       state: State;
+      name: string;
       initialValue: any;
 
       constructor(props: Props, context: DFContext) {
         super(props, context);
 
-        if (!hasProp(context, 'dripForm')) {
-          invariant(false, 'Field component must be inside a Drip Form component (`dripForm()` HOC).');
-        } else {
-          context.register(this);
-          this.updateMetaData(props, context, false);
-        }
+        invariant(
+          hasProp(context, 'dripForm'),
+          'Field component must be inside a Drip Form component (`dripForm()` HOC).'
+        );
+
+        const name = normalizeFieldName((context.group ? context.group.name : props.name) || '');
+
+        invariant(
+          !!name,
+          'Field component must be specified name property.'
+        );
+
+        this.name = name;
+        context.register(this.name, this);
+
+        this.updateMetaData(props, context, false);
       }
 
+      // @TODO: Refactoring
       componentWillMount() {
-        this.context.updateValue(
-          this.props.name,
-          getPropsValue(this.props, this.getValue()),
-          false
-        );
+        const contextValue = dot.get(this.context.values, this.name);
+        let value;
+
+        switch (fieldType) {
+          case 'radio':
+          case 'checkbox':
+            value = contextValue;
+            break;
+          default:
+            value = getPropsValue(this.props, contextValue);
+            break;
+        }
+
+        if (!this.context.group) {
+          this.context.updateValue(this.name, value, false);
+        }
 
         this.updateMetaData(this.props, this.context, false);
       }
 
       componentWillReceiveProps(nextProps: Props) {
         const {
+          register,
+          unregister,
           updateValue,
           updateLabel,
           updateValidations,
@@ -117,6 +146,7 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
         } = this.context;
 
         const {
+          name: _name,
           value: _value,
           label: _label,
           validations: _validations,
@@ -133,33 +163,45 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
           messages,
         } = nextProps;
 
+        if (name !== _name) {
+          this.name = name;
+          unregister(_name);
+          register(name, this);
+        }
+
         if (!isEqual(value, _value)) {
           this.initialValue = value;
           updateValue(name, value, true);
         }
 
-        if (label !== _label) {
-          updateLabel(name, label, true);
-        }
+        if (!this.context.group) {
+          if (label !== _label) {
+            updateLabel(name, label, true);
+          }
 
-        if (!isEqual(validations, _validations)) {
-          updateValidations(name, validations, true);
-        }
+          if (!isEqual(validations, _validations)) {
+            updateValidations(name, validations, true);
+          }
 
-        if (!isEqual(normalizers, _normalizers)) {
-          updateNormalizers(name, normalizers, true);
-        }
+          if (!isEqual(normalizers, _normalizers)) {
+            updateNormalizers(name, normalizers, true);
+          }
 
-        if (!isEqual(messages, _messages)) {
-          updateMessages(name, messages, true);
+          if (!isEqual(messages, _messages)) {
+            updateMessages(name, messages, true);
+          }
         }
       }
 
       componentWillUnmount() {
-        this.context.unregister(this);
+        this.context.unregister(this.name);
       }
 
       updateMetaData(props: Props, context: DFContext, validate: boolean): void {
+        if (context.group) {
+          return;
+        }
+
         const {
           updateValidations,
           updateNormalizers,
@@ -168,34 +210,47 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
         } = context;
 
         const {
-          name,
           validations,
           normalizers,
           label,
           messages,
         } = props;
 
-        const value = getPropsValue(props, this.getValue());
+        // @TODO: Refactoring
+        const contextValue = dot.get(context.values, this.name);
 
-        this.initialValue = value;
+        switch (fieldType) {
+          case 'radio':
+          case 'checkbox':
+            this.initialValue = contextValue;
+            break;
+          default:
+            this.initialValue = getPropsValue(props, contextValue);
+            break;
+        }
 
-        updateValidations(name, validations, validate);
-        updateNormalizers(name, normalizers, validate);
-        updateLabel(name, label, validate);
-        updateMessages(name, messages, validate);
+        updateValidations(this.name, validations, validate);
+        updateNormalizers(this.name, normalizers, validate);
+        updateLabel(this.name, label, validate);
+        updateMessages(this.name, messages, validate);
       }
 
       getValue(): any {
-        return dot.get(this.context.values, this.props.name);
+        return dot.get(this.context.values, this.name);
+      }
+
+      getType(): InternalFieldType {
+        return getFieldType(fieldType, this.props);
       }
 
       getErrors(): ?ErrorMessageList {
-        return this.context.errors[this.props.name];
+        const { group, errors } = this.context;
+
+        return group ? undefined : errors[this.name];
       }
 
       getError(): ?ErrorMessage {
-        const errors = this.getErrors();
-        return errors ? errors[0] : undefined;
+        return arrays.first(this.getErrors() || []);
       }
 
       isInvalid(): boolean {
@@ -207,11 +262,15 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
       }
 
       isValidating(): boolean {
-        return this.context.validating.indexOf(this.props.name) > -1;
+        const { group, validating } = this.context;
+
+        return group ? false : arrays.includes(validating, this.name);
       }
 
       isTouched(): boolean {
-        return this.context.touches.indexOf(this.props.name) > -1;
+        const { group, touches } = this.context;
+
+        return group ? false : arrays.includes(touches, this.name);
       }
 
       isUntouched(): boolean {
@@ -219,21 +278,53 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
       }
 
       isDirty(): boolean {
-        return this.context.dirties.indexOf(this.props.name) > -1;
+        const { group, dirties } = this.context;
+
+        return group ? false : arrays.includes(dirties, this.name);
       }
 
       isPristine(): boolean {
         return !this.isDirty();
       }
 
+      // @TODO Refactoring
+      getChangedValue(e: any) {
+        const { group } = this.context;
+        const contextValue = this.getValue();
+        let value = getFieldValue(this.getType(), e);
+
+        if (group && group.multiple) {
+          const ctx = contextValue || [];
+
+          if (value === '') {
+            value = arrays.remove(ctx, ctx.indexOf(this.props.value));
+          } else {
+            value = arrays.push(ctx, value);
+          }
+
+          value = value.length > 0 ? value : null;
+        }
+
+        return value;
+      }
+
       handleChange = (e: any) => {
-        const { updateValue, updateDirty } = this.context;
-        const { name, parser } = this.props;
-        const value = parseFieldValue(getFieldValue(e), name, parser);
+        const { updateValue, updateDirty, updateTouched } = this.context;
+        const { parser } = this.props;
+        const value = parseFieldValue(
+          this.getChangedValue(e),
+          this.name,
+          parser
+        );
+
         const dirty = !isEqual(this.initialValue, value);
 
-        updateValue(name, value, true);
-        updateDirty(name, dirty);
+        if (fieldType === 'checkbox' || fieldType === 'radio') {
+          updateTouched(this.name, true, false);
+        }
+
+        updateDirty(this.name, dirty);
+        updateValue(this.name, value, true);
 
         if (typeof this.props.onChange === 'function') {
           this.props.onChange(e);
@@ -241,7 +332,9 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
       };
 
       handleBlur = (e: any) => {
-        this.context.updateTouched(this.props.name, true, true);
+        if (fieldType !== 'checkbox' && fieldType !== 'radio') {
+          this.context.updateTouched(this.name, true, true);
+        }
 
         if (typeof this.props.onBlur === 'function') {
           this.props.onBlur(e);
@@ -254,19 +347,9 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
         }
       };
 
-      handleDragStart = (e: any) => {
-        console.log(e); // eslint-disable-line no-console
-      };
-
-      handleDrop = (e: any) => {
-        console.log(e); // eslint-disable-line no-console
-      };
-
       render() {
         const {
           /* eslint-disable no-unused-vars */
-          value: _value,
-          label,
           parser,
           validations,
           normalizers,
@@ -274,27 +357,28 @@ const dripFormField = (fieldOptions: FieldOptions = {}) => {
           onChange,
           onFocus,
           onBlur,
-          onDragStart,
-          onDrop,
           /* eslint-enable no-unused-vars */
+          name,
+          value,
+          label,
           formatter,
           ...props
         } = this.props;
 
-        const value = formatFieldValue(this.getValue(), props.name, formatter);
+        const contextValue = formatFieldValue(this.getValue(), this.name, formatter);
 
         return (
           <WrappedComponent
-            {...createFieldProps(props.type, {
+            {...createFieldProps(this.getType(), contextValue, {
               input: {
+                name,
                 value,
                 onChange: this.handleChange,
                 onFocus: this.handleFocus,
                 onBlur: this.handleBlur,
-                onDragStart: this.handleDragStart,
-                onDrop: this.handleDrop,
               },
-              status: {
+              meta: {
+                label,
                 error: this.getError(),
                 errors: this.getErrors(),
                 valid: this.isValid(),
