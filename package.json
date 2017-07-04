@@ -7,7 +7,7 @@
     "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
     "test": "npm run test:lint && npm run test:typecheck && npm run test:unit",
     "test:watch": "npm run test:unit -- --watch",
-    "test:lint": "eslint \"src/**/*.js\" \"www/src/**/*.js\"",
+    "test:lint": "eslint \"src/**/*.js\"",
     "test:typecheck": "flow",
     "test:unit": "jest",
     "test:coverage": "npm run test:unit -- --coverage",
