@@ -1,0 +1,33 @@
+/**
+ * lime-grid.css
+ * Grid system configure.
+ */
+
+/* Breakpoints */
+@custom-media --viewport-sm (min-width: 567px);
+@custom-media --viewport-md (min-width: 768px);
+@custom-media --viewport-lg (min-width: 992px);
+@custom-media --viewport-xl (min-width: 1200px);
+
+:root {
+  /* Container width */
+  --container-width-xs: auto;
+  --container-width-sm: 540px;
+  --container-width-md: 720px;
+  --container-width-lg: 960px;
+  --container-width-xl: 1150px;
+
+  /* Gutter width */
+  --gutter-width-xs: 20px;
+  --gutter-width-sm: 20px;
+  --gutter-width-md: 30px;
+  --gutter-width-lg: 30px;
+  --gutter-width-xl: 40px;
+
+  /* Outside gutter width */
+  --outside-gutter-width-xs: 15px;
+  --outside-gutter-width-sm: 15px;
+  --outside-gutter-width-md: 15px;
+  --outside-gutter-width-lg: 15px;
+  --outside-gutter-width-xl: 20px;
+}

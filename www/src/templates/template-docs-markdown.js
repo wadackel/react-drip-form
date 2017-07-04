@@ -1,19 +1,19 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable react/prop-types */
-import React from 'react'; // eslint-disable-line
+import React from 'react';
+import { Layout } from '../components/';
 
-export default ({ data }) => (
-  <div>
-    <h1>{data.markdownRemark.frontmatter.title}</h1>
+export default ({ data, location }) => (
+  <Layout
+    title={data.markdownRemark.frontmatter.title}
+    location={location}
+  >
     <div
       dangerouslySetInnerHTML={{
         __html: data.markdownRemark.html,
       }}
     />
-    <pre>
-      <code>{JSON.stringify(data, null, 2)}</code>
-    </pre>
-  </div>
+  </Layout>
 );
 
 // eslint-disable-next-line

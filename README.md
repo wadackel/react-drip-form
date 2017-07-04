@@ -1,10 +1,10 @@
-# react-drip-form
+![react-drip-form](https://raw.githubusercontent.com/tsuyoshiwada/react-drip-form/artwork/repo-banner.png)
 
 [![Build Status](http://img.shields.io/travis/tsuyoshiwada/react-drip-form.svg?style=flat-square)](https://travis-ci.org/tsuyoshiwada/react-drip-form)
 [![Codecov](https://img.shields.io/codecov/c/github/tsuyoshiwada/react-drip-form.svg?style=flat-square)](https://codecov.io/gh/tsuyoshiwada/react-drip-form)
 [![npm version](https://img.shields.io/npm/v/react-drip-form.svg?style=flat-square)](http://badge.fury.io/js/react-drip-form)
 
-> React forms state manager. powerfully supports validation and normalization.
+> HoC based React forms state manager, Support for validation and normalization.
 
 https://tsuyoshiwada.github.io/react-drip-form/
 
@@ -39,7 +39,7 @@ https://tsuyoshiwada.github.io/react-drip-form/
 * Support async and sync validation.
 * Support normalization.
 * Support Nest fields and Array fields.
-* Customizable error message. (Support l18n)
+* Customizable error message. (Support i18n)
 
 
 
@@ -57,7 +57,7 @@ $ npm install --save react-drip-form
 ### Basic usage
 
 
-#### 1. Create input field component
+#### 1. Create field component
 
 **Input.js**
 
@@ -65,10 +65,10 @@ $ npm install --save react-drip-form
 import React from 'react';
 import { dripFormField } from 'react-drip-form';
 
-const Input = dripFormField()(({
+const Input = ({
   input,
   props,
-  status: { error, dirty, touched },
+  meta: { error, dirty, touched },
 }) => (
   <div>
     <input
@@ -77,9 +77,9 @@ const Input = dripFormField()(({
     />
     {error && dirty && touched && <span style={{ color: 'red' }}>{error}</span>}
   </div>
-));
+);
 
-export default Input;
+export default dripFormField()(Input);
 ```
 
 
@@ -90,27 +90,17 @@ export default Input;
 ```javascript
 import React from 'react';
 import { dripForm } from 'react-drip-form';
-import Input from './Input.js';
+import Input from './Input';
 
-const Form = dripForm({
-  validations: {
-    email: {
-      required: true,
-      email: true,
-    },
-    password: {
-      required: true,
-      email: true,
-    },
-  },
-})(({
+const Form = ({
   handlers,
-  status: { invalid, pristine },
+  meta: { invalid, pristine },
 }) => (
   <form onSubmit={handlers.onSubmit}>
     <div>
-      <label for="email">Email-Address</label>
+      <label htmlFor="email">Email-Address</label>
       <Input
+        id="email"
         type="email"
         name="email"
         label="Email-Address"
@@ -119,8 +109,9 @@ const Form = dripForm({
     </div>
 
     <div>
-      <label for="password">Password</label>
+      <label htmlFor="password">Password</label>
       <Input
+        id="password"
         type="password"
         name="password"
         label="Password"
@@ -136,9 +127,19 @@ const Form = dripForm({
       Submit
     </button>
   </form>
-));
+);
 
-export default Form;
+export default dripForm({
+  validations: {
+    email: {
+      required: true,
+      email: true,
+    },
+    password: {
+      required: true,
+    },
+  },
+})(Form);
 ```
 
 
@@ -148,7 +149,7 @@ export default Form;
 
 ```javascript
 import React, { Component } from 'react';
-import Form from './Form.js';
+import Form from './Form';
 
 export default class App extends Component {
   // Get valid values.
@@ -185,6 +186,7 @@ See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
 
 ### Components
 
+* [TODO: Default Components](https://github.com/tsuyoshiwada/react-drip-form-components)
 * [TODO: material-ui](https://github.com/callemall/material-ui)
 * [TODO: react-toolbox](https://github.com/react-toolbox/react-toolbox)
 * [TODO: react-bootstrap](https://github.com/react-bootstrap/react-bootstrap)

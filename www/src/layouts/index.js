@@ -1,28 +1,21 @@
 /* eslint-disable react/prop-types */
-import React from 'react'; // eslint-disable-line
-import Link from 'gatsby-link';
-import 'prismjs/themes/prism.css'; // eslint-disable-line
+import React from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
+import 'prismjs';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-markdown';
+import 'prismjs/themes/prism.css';
+/* eslint-enable import/no-extraneous-dependencies */
+import 'normalize.css';
+import '../css/style.css';
 
 export default ({ children }) => (
   <div>
-    <header>
-      <h1>React Drip Form</h1>
-
-      <nav>
-        <Link to="/">Home</Link>
-        {' '}
-        <Link to="/test/">Test</Link>
-        {' '}
-        <Link to="/docs/">Docs</Link>
-      </nav>
-    </header>
-
-    <div>
-      {children()}
-    </div>
-
-    <footer>
-      <p>footer</p>
-    </footer>
+    {children()}
   </div>
 );

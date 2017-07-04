@@ -1,0 +1,147 @@
+@import './variables.css';
+@import './grid-system.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans-serif);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+body {
+  min-width: 320px;
+}
+
+::selection {
+  background-color: rgba(32, 197, 157, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+::-webkit-scrollbar-track:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 2em auto 1em;
+  font-family: var(--font-accent);
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+a {
+  color: #20c59d;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+code:not([class*="language-"]) {
+  padding: 0.2em 0.4em;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  font-family: var(--font-monospace);
+  font-size: 0.875em;
+}
+
+pre {
+  margin: 1.5em auto;
+}
+
+pre[class*="language-"] {
+  padding: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+code[class*="language-"] {
+  display: block;
+  padding: 1.5em;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.875em;
+  font-family: var(--font-monospace);
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+  background-color: rgba(32, 197, 157, 0.4);
+}
+
+hr {
+  display: block;
+  height: 0;
+  margin: 5rem 0;
+  border: none;
+  border-top: 1px solid #f0f0f0;
+}
+
+form,
+.form {
+}
+
+form label,
+.form label {
+  display: block;
+  margin-bottom: 0.2em;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+form > div,
+.form > div {
+  margin-top: 1.4em;
+  margin-bottom: 1.4em;
+}
