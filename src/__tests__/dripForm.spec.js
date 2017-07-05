@@ -68,6 +68,30 @@ describe('dripForm()', () => {
   });
 
 
+  test('Should be pass defaultProps', () => {
+    const Form = mockComponent(() => <div />, {
+      defaultProps: {
+        foo: 'foo',
+        bar: 'bar',
+        numeric: 10,
+      },
+    });
+
+    expect(Form.defaultProps).toEqual({
+      values: {},
+      onInitialize: null,
+      onChange: null,
+      onClear: null,
+      onReset: null,
+      onValidSubmit: null,
+      onInvalidSubmit: null,
+      foo: 'foo',
+      bar: 'bar',
+      numeric: 10,
+    });
+  });
+
+
   test('Should be pass form props', () => {
     const wrapper = mockShallow(() => <div />);
 

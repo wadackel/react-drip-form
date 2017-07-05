@@ -36,6 +36,7 @@ type FieldComponent = React$Component<FieldProps, FieldProps, FieldState>;
 
 
 export type FormOptions = {
+  defaultProps?: Object;
   validations?: ValidationsWithField,
   normalizers?: NormalizersWithField,
   messages?: MessageFieldList;
@@ -47,6 +48,7 @@ export type FormOptions = {
 };
 
 const defaultFormOptions: FormOptions = {
+  defaultProps: {},
   validations: {},
   normalizers: {},
   messages: {},
@@ -95,6 +97,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
         onReset: null,
         onValidSubmit: null,
         onInvalidSubmit: null,
+        ...(options.defaultProps || {}),
       };
 
       props: Props;
