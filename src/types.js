@@ -122,6 +122,80 @@ export type FieldProps = {
     untouched: boolean;
     dirty: boolean;
     pristine: boolean;
+    validating: boolean;
   };
-  props: any;
+  props: Object;
+};
+
+export const FormPropTypes = {
+  children: PropTypes.node,
+  values: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  meta: PropTypes.shape({
+    valid: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    touched: PropTypes.bool.isRequired,
+    untouched: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    validating: PropTypes.bool.isRequired,
+  }).isRequired,
+  fields: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    set: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired,
+    pop: PropTypes.func.isRequired,
+    shift: PropTypes.func.isRequired,
+    unshift: PropTypes.func.isRequired,
+    swap: PropTypes.func.isRequired,
+    move: PropTypes.func.isRequired,
+    map: PropTypes.func.isRequired,
+    forEach: PropTypes.func.isRequired,
+    isValid: PropTypes.func.isRequired,
+    isValidating: PropTypes.func.isRequired,
+  }).isRequired,
+  handlers: PropTypes.shape({
+    onSubmit: PropTypes.func.isRequired,
+    onClear: PropTypes.func.isRequired,
+    onReset: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export const FieldPropTypes = {
+  input: PropTypes.shape({
+    value: PropTypes.any,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+  }).isRequired,
+  meta: PropTypes.shape({
+    error: PropTypes.string,
+    errors: PropTypes.arrayOf(PropTypes.string),
+    valid: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    touched: PropTypes.bool.isRequired,
+    untouched: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    validating: PropTypes.bool.isRequired,
+  }).isRequired,
+  props: PropTypes.object.isRequired,
+};
+
+export const GroupPropTypes = {
+  children: PropTypes.node.isRequired,
+  meta: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+    error: PropTypes.string,
+    errors: PropTypes.arrayOf(PropTypes.string),
+    valid: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
+    touched: PropTypes.bool.isRequired,
+    untouched: PropTypes.bool.isRequired,
+    dirty: PropTypes.bool.isRequired,
+    pristine: PropTypes.bool.isRequired,
+    validating: PropTypes.bool.isRequired,
+  }).isRequired,
 };

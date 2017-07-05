@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import invariant from 'invariant';
-import { Validator } from 'drip-form-validator'; // eslint-disable-line import/no-extraneous-dependencies
+import { Validator } from 'drip-form-validator';
 import * as dot from 'dot-wild';
 import forEach from 'lodash.foreach';
 import isPlainObject from 'lodash.isplainobject';
