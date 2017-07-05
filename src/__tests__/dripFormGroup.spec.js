@@ -7,20 +7,20 @@ import {
 } from './mock';
 
 
-const mockComponent = WrappedComponent => (
-  dripFormGroup()(WrappedComponent)
+const mockComponent = (WrappedComponent, options = {}) => (
+  dripFormGroup(options)(WrappedComponent)
 );
 
-const mockRender = (useShallow, WrappedComponent, props = {}, context) => {
-  const Component = mockComponent(WrappedComponent);
+const mockRender = (useShallow, WrappedComponent, props = {}, context, options = {}) => {
+  const Component = mockComponent(WrappedComponent, options);
 
   return (useShallow ? shallow : mount)(<Component {...props} />, {
     context: mockContext(context),
   });
 };
 
-const mockShallow = (WrappedComponent, props = {}, context = {}) => (
-  mockRender(true, WrappedComponent, props, context)
+const mockShallow = (WrappedComponent, props = {}, context = {}, options = {}) => (
+  mockRender(true, WrappedComponent, props, context, options)
 );
 
 
@@ -131,6 +131,29 @@ describe('dripFormGroup()', () => {
       dirty: false,
       pristine: true,
       validating: false,
+    });
+  });
+
+
+  test('Should be pass defaultProps', () => {
+    const Component = mockComponent(() => <div />, {
+      defaultProps: {
+        foo: 'foo',
+        bar: 'bar',
+        originalProp: 10,
+      },
+    });
+
+    expect(Component.defaultProps).toEqual({
+      multiple: false,
+      value: null,
+      label: null,
+      validations: null,
+      normalizers: null,
+      messages: null,
+      foo: 'foo',
+      bar: 'bar',
+      originalProp: 10,
     });
   });
 

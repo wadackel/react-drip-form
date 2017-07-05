@@ -32,7 +32,12 @@ export type Props = {
 export type State = {
 };
 
-const dripFormGroup = () => (
+export type GroupOptions = {
+  defaultProps?: Object;
+};
+
+
+const dripFormGroup = (options: GroupOptions = {}) => (
   (WrappedComponent: $WrappedComponent<*, *, *>) => (
     class DripFormGroup extends Component {
       static displayName = makeDisplayName(WrappedComponent, 'dripFormGroup');
@@ -45,6 +50,7 @@ const dripFormGroup = () => (
         validations: null,
         normalizers: null,
         messages: null,
+        ...(options.defaultProps || {}),
       };
 
       context: DFContext;
