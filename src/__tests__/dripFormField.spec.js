@@ -1135,52 +1135,52 @@ describe('dripFormField()', () => {
   });
 
 
-  // test('Should be handle onBlur', () => {
-  //   const name = 'blurFieldName';
-  //   const onBlur = jest.fn();
-  //   const wrapper = mockMount('text', ({ input, props }) => (
-  //     <input
-  //     {...props}
-  //     {...input}
-  //     />
-  //   ), {
-  //     name,
-  //     onBlur,
-  //   });
-  //
-  //   expect(onBlur.mock.calls.length).toBe(0);
-  //
-  //   wrapper.find('input').simulate('blur');
-  //
-  //   expect(onBlur.mock.calls.length).toBe(1);
-  // });
+  test('Should be handle onBlur', () => {
+    const name = 'blurFieldName';
+    const onBlur = jest.fn();
+    const wrapper = mockMount('text', ({ input, props }) => (
+      <input
+        {...props}
+        {...input}
+      />
+    ), {
+      name,
+      onBlur,
+    });
+
+    expect(onBlur.mock.calls.length).toBe(0);
+
+    wrapper.find('input').simulate('blur');
+
+    expect(onBlur.mock.calls.length).toBe(1);
+  });
 
 
-  // test('Should be update touch status when handleBlur', () => {
-  //   const name = 'blurFieldName';
-  //   const updateTouched = jest.fn();
-  //   const wrapper = mockMount('text', ({ input, props }) => (
-  //     <input
-  //     {...input}
-  //     {...props}
-  //     />
-  //   ), {
-  //     name,
-  //   }, {
-  //     updateTouched,
-  //   });
-  //
-  //   expect(updateTouched.mock.calls.length).toBe(0);
-  //
-  //   wrapper.find('input').simulate('blur');
-  //
-  //   expect(updateTouched.mock.calls.length).toBe(1);
-  //   expect(updateTouched.mock.calls[0]).toEqual([
-  //     name,
-  //     true,
-  //     true,
-  //   ]);
-  // });
+  test('Should be update touch status when handleBlur', () => {
+    const name = 'blurFieldName';
+    const updateTouched = jest.fn();
+    const wrapper = mockMount('text', ({ input, props }) => (
+      <input
+        {...input}
+        {...props}
+      />
+    ), {
+      name,
+    }, {
+      updateTouched,
+    });
+
+    expect(updateTouched.mock.calls.length).toBe(0);
+
+    wrapper.find('input').simulate('blur');
+
+    expect(updateTouched.mock.calls.length).toBe(1);
+    expect(updateTouched.mock.calls[0]).toEqual([
+      name,
+      true,
+      true,
+    ]);
+  });
 
 
   test('Should be parse value', () => {
