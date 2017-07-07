@@ -103,7 +103,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
         this.updateMetaData(props, context, false);
       }
 
-      // @TODO: Refactoring
+      // @FIXME: Refactoring
       componentWillMount() {
         const contextValue = dot.get(this.context.values, this.name);
         let value;
@@ -189,10 +189,6 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
       }
 
       updateMetaData(props: Props, context: DFContext, validate: boolean): void {
-        if (context.group) {
-          return;
-        }
-
         const {
           updateValidations,
           updateNormalizers,
@@ -207,7 +203,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
           messages,
         } = props;
 
-        // @TODO: Refactoring
+        // @FIXME: Refactoring
         const contextValue = dot.get(context.values, this.name);
 
         switch (fieldType) {
@@ -218,6 +214,10 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
           default:
             this.initialValue = getPropsValue(props, contextValue);
             break;
+        }
+
+        if (context.group) {
+          return;
         }
 
         updateValidations(this.name, validations, validate);
@@ -278,7 +278,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
         return !this.isDirty();
       }
 
-      // @TODO Refactoring
+      // @FIXME Refactoring
       getChangedValue(e: any) {
         const { group } = this.context;
         const contextValue = this.getValue();

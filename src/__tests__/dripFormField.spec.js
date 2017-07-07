@@ -237,6 +237,42 @@ describe('dripFormField()', () => {
   });
 
 
+  test('Should not be call update meta values if in field group', () => {
+    const updateValidations = jest.fn();
+    const updateNormalizers = jest.fn();
+    const updateMessages = jest.fn();
+    const updateLabel = jest.fn();
+
+    const name = 'fieldName';
+    const validations = { validate: true };
+    const normalizers = { normalize: true };
+    const label = 'Field Name';
+    const messages = { message: 'message' };
+
+    mockShallow('text', () => <div />, {
+      name,
+      validations,
+      normalizers,
+      label,
+      messages,
+    }, {
+      updateValidations,
+      updateNormalizers,
+      updateMessages,
+      updateLabel,
+      group: {
+        name: `group${name}`,
+        multiple: false,
+      },
+    });
+
+    expect(updateValidations.mock.calls.length).toBe(0);
+    expect(updateNormalizers.mock.calls.length).toBe(0);
+    expect(updateMessages.mock.calls.length).toBe(0);
+    expect(updateLabel.mock.calls.length).toBe(0);
+  });
+
+
   test('Should be call update meta data functions in the constructor and willMount', () => {
     const updateValidations = jest.fn();
     const updateNormalizers = jest.fn();
@@ -410,12 +446,10 @@ describe('dripFormField()', () => {
     });
 
     expect(wrapper.instance().initialValue).toBe(null);
-
     wrapper = mockShallow('text', () => <div />, {
       name,
       value: 'prop value',
     });
-
     expect(wrapper.instance().initialValue).toBe('prop value');
 
     wrapper = mockShallow('text', () => <div />, {
@@ -438,10 +472,45 @@ describe('dripFormField()', () => {
     });
 
     expect(wrapper.instance().initialValue).toBe('prop value');
-
     wrapper.setProps({ value: 'change value' });
-
     expect(wrapper.instance().initialValue).toBe('change value');
+
+    wrapper = mockShallow('checkbox', () => <div />, {
+      name,
+      value: 'check1',
+    }, {
+      values: {
+        [name]: ['check1', 'check2'],
+      },
+    });
+
+    expect(wrapper.instance().initialValue).toEqual(['check1', 'check2']);
+  });
+
+
+  test('Should be set initialValue if in field group', () => {
+    const name = 'initialValueField';
+    const group = { name, multiple: true };
+    let wrapper;
+
+    wrapper = mockShallow('text', () => <div />, {
+      name,
+      value: null,
+    }, {
+      group,
+    });
+
+    expect(wrapper.instance().initialValue).toBe(null);
+    wrapper.setProps({ value: 'props value' });
+    expect(wrapper.instance().initialValue).toBe('props value');
+
+    wrapper = mockShallow('checkbox', () => <div />, {}, {
+      values: {
+        [name]: ['ctx', 'context'],
+      },
+      group,
+    });
+    expect(wrapper.instance().initialValue).toEqual(['ctx', 'context']);
   });
 
 
