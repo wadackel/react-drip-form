@@ -101,6 +101,7 @@ pre[class*="language-"] {
   overflow: visible;
 }
 
+pre[class*="language-"] code,
 code[class*="language-"] {
   display: block;
   padding: 1.5em;

@@ -70,7 +70,7 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
 
     slug = `${slugs.filter(v => !!v).join('/')}/`;
     if (slug && slug !== '/') {
-      createNodeField({ node, fieldName: 'slug', fieldValue: slug });
+      createNodeField({ node, name: 'slug', value: slug });
     }
   } else if (
     node.internal.type === 'MarkdownRemark' &&
@@ -93,7 +93,7 @@ exports.onCreateNode = ({ node, boundActionCreators, getNode }) => {
       }
       slug = `${slugs.filter(v => !!v).join('/')}/`;
       if (slug && slug !== '/') {
-        createNodeField({ node, fieldName: 'slug', fieldValue: slug });
+        createNodeField({ node, name: 'slug', value: slug });
       }
     }
   }
