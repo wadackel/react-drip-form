@@ -1,8 +1,17 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm } from '../../../../src/';
+import { dripForm } from 'react-drip-form';
+import {
+  Input,
+  FieldGroup,
+  Radio,
+  Checkbox,
+  Textarea,
+} from 'react-drip-form-components';
 import { Layout, Button, Code } from '../../components/';
-import { Input, FieldGroup, Checkbox, Radio } from '../../fields/';
 
 
 const ResetForm = dripForm({
@@ -24,37 +33,8 @@ const ResetForm = dripForm({
 }) => (
   <form onSubmit={handlers.onSubmit}>
     <div>
-      <Input type="text" name="foo" />
-    </div>
-
-    <div>
-      <FieldGroup name="bar" multiple>
-        <Checkbox value="bar1">Bar 1</Checkbox>
-        <Checkbox value="bar2">Bar 2</Checkbox>
-        <Checkbox value="bar3">Bar 3</Checkbox>
-      </FieldGroup>
-    </div>
-
-    <div>
-      <FieldGroup name="baz">
-        <Radio value="baz1">Baz 1</Radio>
-        <Radio value="baz2">Baz 2</Radio>
-        <Radio value="baz3">Baz 3</Radio>
-      </FieldGroup>
-    </div>
-
-    <div>
-      <Input type="text" name="hoge" value="Hoge props" />
-    </div>
-
-    <div>
-      <label htmlFor="name">Name</label>
-      <Input
-        type="text"
-        id="name"
-        name="name"
-        label="Name"
-      />
+      <label htmlFor="username">Username</label>
+      <Input type="text" id="username" name="username" />
     </div>
 
     <div>
@@ -76,6 +56,11 @@ const ResetForm = dripForm({
         <Checkbox value="red">Red</Checkbox>
         <Checkbox value="pink">Pink</Checkbox>
       </FieldGroup>
+    </div>
+
+    <div>
+      <label htmlFor="message">Message</label>
+      <Textarea id="message" name="message" />
     </div>
 
     <Button
@@ -101,9 +86,10 @@ const ResetForm = dripForm({
 export default class ResetFormExample extends Component {
   state = {
     values: {
-      name: 'Initial Name',
-      gender: 'other',
+      username: 'tsuyoshiwada (initial value)',
+      gender: 'female',
       colors: ['white', 'pink'],
+      message: 'Did you like react-drip-form? (initial message)',
     },
   };
 
@@ -146,6 +132,14 @@ export default class ResetFormExample extends Component {
         <h3>Sample Code:</h3>
         <Code language="javascript">{`import React from 'react';
 import { dripForm } from 'react-drip-form';
+import {
+  Input,
+  FieldGroup,
+  Radio,
+  Checkbox,
+  Textarea,
+} from 'react-drip-form-components';
+
 
 const ResetForm = dripForm({
   validations: {
@@ -166,37 +160,8 @@ const ResetForm = dripForm({
 }) => (
   <form onSubmit={handlers.onSubmit}>
     <div>
-      <Input type="text" name="foo" />
-    </div>
-
-    <div>
-      <FieldGroup name="bar" multiple>
-        <Checkbox value="bar1">Bar 1</Checkbox>
-        <Checkbox value="bar2">Bar 2</Checkbox>
-        <Checkbox value="bar3">Bar 3</Checkbox>
-      </FieldGroup>
-    </div>
-
-    <div>
-      <FieldGroup name="baz">
-        <Radio value="baz1">Baz 1</Radio>
-        <Radio value="baz2">Baz 2</Radio>
-        <Radio value="baz3">Baz 3</Radio>
-      </FieldGroup>
-    </div>
-
-    <div>
-      <Input type="text" name="hoge" value="Hoge props" />
-    </div>
-
-    <div>
-      <label htmlFor="name">Name</label>
-      <Input
-        type="text"
-        id="name"
-        name="name"
-        label="Name"
-      />
+      <label htmlFor="username">Username</label>
+      <Input type="text" id="username" name="username" />
     </div>
 
     <div>
@@ -218,6 +183,11 @@ const ResetForm = dripForm({
         <Checkbox value="red">Red</Checkbox>
         <Checkbox value="pink">Pink</Checkbox>
       </FieldGroup>
+    </div>
+
+    <div>
+      <label htmlFor="message">Message</label>
+      <Textarea id="message" name="message" />
     </div>
 
     <Button

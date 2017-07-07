@@ -1,8 +1,11 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm, Validator } from '../../../../src/';
+import { dripForm, Validator } from 'react-drip-form';
+import { Input } from 'react-drip-form-components';
 import { Layout, Button, Code } from '../../components/';
-import { Input } from '../../fields/';
 
 
 // Simulate API
@@ -85,18 +88,6 @@ export default class BasicFormExample extends Component {
         title="Async Validation"
         location={location}
       >
-        <style jsx>{`
-          :global(form > div) {
-            margin-bottom: 1em;
-          }
-
-          :global(form > div > label) {
-            display: block;
-            margin: 0 0 0.2em;
-            font-weight: bold;
-          }
-        `}</style>
-
         <p>
           This is an example of asynchronous validations.<br />
           <a href="https://github.com/tsuyoshiwada/drip-form-validator">drip-form-validator</a> can register asynchronous validation with the <code>registerAsyncRule()</code> method.
@@ -126,8 +117,9 @@ export default class BasicFormExample extends Component {
         <hr />
 
         <h3>Sample Code:</h3>
-        <Code language="javascript">{`import React, { Component } from 'react';
-import { dripForm } from 'react-drip-form';
+        <Code language="javascript">{`import React from 'react';
+import { dripForm, Validator } from 'react-drip-form';
+import { Input } from 'react-drip-form-components';
 
 
 // Simulate API

@@ -1,9 +1,10 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-template-curly-in-string */
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Input, FieldGroup, Radio } from 'react-drip-form-components';
 import { dripForm } from '../../../../src/';
 import { Layout, Button, Code } from '../../components/';
-import { Input, FieldGroup, Radio } from '../../fields/';
 
 
 const NestFieldsForm = dripForm({
@@ -103,6 +104,43 @@ const NestFieldsForm = dripForm({
   </form>
 ));
 
+const Content = styled.div`
+  & form .rdf-group {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  & form > div > div:not(.rdf-input) {
+    padding-left: 2em;
+  }
+
+  & form .members > div {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  & form .input-group {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  & form .input-group > div {
+    width: 100%;
+  }
+
+  & form .input-group input {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  & form .input-group > button {
+    height: 2.7rem;
+    border-left: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+`;
+
 
 export default class NestFieldsFormExample extends Component {
   state = {
@@ -122,45 +160,8 @@ export default class NestFieldsFormExample extends Component {
         title="Nest Fields"
         location={location}
       >
-        <style jsx>{`
-          :global(form .rdf-group) {
-            margin-top: 1em;
-            margin-bottom: 1em;
-          }
-
-          :global(form > div > div:not(.rdf-input)) {
-            padding-left: 2em;
-          }
-
-          :global(form .members > div) {
-            margin-top: 1em;
-            margin-bottom: 1em;
-          }
-
-          :global(form .input-group) {
-            display: flex;
-            justify-content: space-between;
-          }
-
-          :global(form .input-group > div) {
-            width: 100%;
-          }
-
-          :global(form .input-group input) {
-            border-top-right-radius: 0 !important;
-            border-bottom-right-radius: 0 !important;
-          }
-
-          :global(form .input-group > button) {
-            height: 40px;
-            border-left: 0 !important;
-            border-top-left-radius: 0 !important;
-            border-bottom-left-radius: 0 !important;
-          }
-        `}</style>
-
+        <p>This is an example of a nested Field form.</p>
         <p>
-          This is an example of a nested Field form.<br />
           The <code>name</code> attribute of the nested Field must be expressed in dot notation.<br />
           <strong>Example: </strong><code>foo.bar</code>
         </p>
@@ -175,14 +176,16 @@ export default class NestFieldsFormExample extends Component {
         <hr />
 
         <h3>Example:</h3>
-        <NestFieldsForm
-          values={values}
-          onChange={v => this.setState({ values: v })}
-          onValidSubmit={(v) => {
-            alert('See console');
-            console.log(v);
-          }}
-        />
+        <Content>
+          <NestFieldsForm
+            values={values}
+            onChange={v => this.setState({ values: v })}
+            onValidSubmit={(v) => {
+              alert('See console');
+              console.log(v);
+            }}
+          />
+        </Content>
         <hr />
 
         <h3>Values:</h3>

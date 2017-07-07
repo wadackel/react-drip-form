@@ -1,19 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import { PrismCode } from 'react-prism';
 
-const Code = ({ language, children }) => (
-  <div className="root">
-    <style jsx>{`
-      pre,
-      pre :global(code) {
-        font-size: 0.875rem;
-      }
-    `}</style>
+const Pre = styled.pre`
+  font-size: 0.875rem;
 
-    <pre>
-      <PrismCode className={`language-${language}`}>{children}</PrismCode>
-    </pre>
-  </div>
+  & code {
+    font-size: 0.875rem;
+  }
+`;
+
+const Code = ({ language, children }) => (
+  <Pre>
+    <PrismCode className={`language-${language}`}>{children}</PrismCode>
+  </Pre>
 );
 
 Code.defaultProps = {

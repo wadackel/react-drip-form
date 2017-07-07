@@ -1,8 +1,11 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm } from '../../../../src/';
+import { dripForm } from 'react-drip-form';
+import { Input, FieldGroup, Checkbox } from 'react-drip-form-components';
 import { Layout, Button, Code } from '../../components/';
-import { Input, FieldGroup, Checkbox } from '../../fields/';
 
 
 const FieldLevelValidationForm = dripForm()(({
@@ -126,6 +129,7 @@ export default class FieldLevelValidationFormExample extends Component {
         <h3>Sample Code:</h3>
         <Code language="javascript">{`import React from 'react';
 import { dripForm } from 'react-drip-form';
+import { Input, FieldGroup, Checkbox } from 'react-drip-form-components';
 
 const FieldLevelValidationForm = dripForm()(({
   handlers,

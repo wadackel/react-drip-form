@@ -1,136 +1,133 @@
 import React from 'react';
 import Link from 'gatsby-link';
+import styled from 'styled-components';
 import { Logo } from './';
 import { viewport } from '../constants';
 
-const Sidebar = ({ open }) => (
-  <div className={`root ${open ? 'open' : ''}`}>
-    <style jsx>{`
-      .header {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 2;
-        background: #fff;
-        height: 60px;
-        border-bottom: 1px solid #f0f0f0;
-      }
+const Header = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  background: #fff;
+  height: 60px;
+  border-bottom: 1px solid #f0f0f0;
 
-      .header :global(a) {
-        display: none;
-        transition: all 80ms ease-out;
-      }
+  & a {
+    display: none;
+    transition: all 80ms ease-out;
+  }
 
-      .header :global(a):hover {
-        letter-spacing: 0.05em;
-      }
+  & a:hover {
+    letter-spacing: 0.05em;
+  }
 
-      .header :global(svg) {
-        width: 20px;
-        height: 28px;
-      }
+  & svg {
+    width: 20px;
+    height: 28px;
+  }
 
-      .header div {
-        margin: 3px 0 0;
-        font-family: 'Poppins', sans-serif;
-        font-size: 0.75rem;
-      }
+  & div {
+    margin: 3px 0 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+  }
 
-      .body {
-        position: absolute;
-        top: 60px;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        padding: 0 0 40px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        font-size: 0.875em;
-      }
+  @media (${viewport.sm}) {
+    height: auto;
 
-      .body ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
+    & a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 120px;
+      color: #000;
+      text-align: center;
+      text-decoration: none;
+    }
+  }
+`;
 
-      .body :global(a) {
-        color: #000;
-        text-decoration: none;
-        transition: all 120ms ease-out;
-      }
+const Body = styled.div`
+  position: absolute;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  padding: 0 0 40px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 0.875em;
 
-      .body :global(a):hover {
-        color: #20c59d;
-        background: rgba(0, 0, 0, 0.02);
-      }
+  & ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
 
-      .body > ul {
-        padding-top: 10px;
-      }
+  & a {
+    color: #000;
+    text-decoration: none;
+    transition: all 120ms ease-out;
+  }
 
-      .body > ul + ul {
-        margin-top: 10px;
-        border-top: 1px solid #f0f0f0;
-      }
+  & a:hover {
+    color: #20c59d;
+    background: rgba(0, 0, 0, 0.02);
+  }
 
-      .body > ul > li {
-      }
+  & > ul {
+    padding-top: 10px;
+  }
 
-      .body > ul > li > :global(a),
-      .body > ul > li > span {
-        display: block;
-        padding: 15px 15px;
-        font-weight: bold;
-        line-height: 1.4;
-      }
+  & > ul + ul {
+    margin-top: 10px;
+    border-top: 1px solid #f0f0f0;
+  }
 
-      .body > ul > li > span {
-        color: #ccc;
-      }
+  & > ul > li {
+  }
 
-      .body li > ul {
-        margin-bottom: 20px;
-      }
+  & > ul > li > a,
+  & > ul > li > span {
+    display: block;
+    padding: 15px 15px;
+    font-weight: bold;
+    line-height: 1.4;
+  }
 
-      .body li > ul :global(a) {
-        display: block;
-        padding: 10px 15px 10px 30px;
-      }
+  & > ul > li > span {
+    color: #ccc;
+  }
 
-      @media (${viewport.sm}) {
-        .header {
-          height: auto;
-        }
+  & li > ul {
+    margin-bottom: 20px;
+  }
 
-        .header :global(a) {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 120px;
-          color: #000;
-          text-align: center;
-          text-decoration: none;
-        }
+  & li > ul a {
+    display: block;
+    padding: 10px 15px 10px 30px;
+  }
 
-        .body {
-          top: 120px;
-        }
-      }
-    `}</style>
+  @media (${viewport.sm}) {
+    top: 120px;
+  }
+`;
 
-    <div className="header">
+const Sidebar = () => (
+  <div>
+    <Header>
       <Link to="/">
         <Logo />
         <div>react drip form</div>
       </Link>
-    </div>
+    </Header>
 
-    <div className="body">
+    <Body>
       <ul>
         <li><Link to="/">HOME</Link></li>
         <li>
@@ -184,6 +181,15 @@ const Sidebar = ({ open }) => (
       </ul>
       <ul>
         <li>
+          <span>COMPONENTS</span>
+          <ul>
+            <li><a href="https://github.com/tsuyoshiwada/react-drip-form-components">Official UI Components</a></li>
+            <li><a href="https://github.com/tsuyoshiwada/react-drip-form-components">Material-UI</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul>
+        <li>
           <span>LINKS</span>
           <ul>
             <li><a href="https://github.com/tsuyoshiwada/react-drip-form">GitHub</a></li>
@@ -191,7 +197,7 @@ const Sidebar = ({ open }) => (
           </ul>
         </li>
       </ul>
-    </div>
+    </Body>
   </div>
 );
 

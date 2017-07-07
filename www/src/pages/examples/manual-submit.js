@@ -1,8 +1,12 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm } from '../../../../src/';
+import { dripForm } from 'react-drip-form';
+import { Input, Checkbox, FieldGroup, Textarea } from 'react-drip-form-components';
+import Link from 'gatsby-link';
 import { Layout, Button, Code } from '../../components/';
-import { Input, Checkbox, FieldGroup, Textarea } from '../../fields/';
 
 
 const ManualSubmitForm = dripForm({
@@ -115,6 +119,8 @@ export default class BasicFormExample extends Component {
           You can submit it manually by using the <code>submit()</code> method of the Form instance.
         </p>
 
+        <p>For other available instance methods, please refer to <Link to="/docs/api/drip-form/">API</Link>.</p>
+
         <hr />
 
         <h3>Example:</h3>
@@ -134,6 +140,7 @@ export default class BasicFormExample extends Component {
         <h3>Sample Code:</h3>
         <Code language="javascript">{`import React, { Component } from 'react';
 import { dripForm } from 'react-drip-form';
+import { Input, Checkbox, FieldGroup, Textarea } from 'react-drip-form-components';
 
 const ManualSubmitForm = dripForm({
   validations: {

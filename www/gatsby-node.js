@@ -4,6 +4,19 @@ const parseFilepath = require('parse-filepath');
 const slash = require('slash');
 
 
+exports.modifyWebpackConfig = ({ config }) => {
+  config.merge({
+    resolve: {
+      alias: {
+        'react-drip-form': path.resolve(__dirname, '../src/'),
+      },
+    },
+  });
+
+  return config;
+};
+
+
 exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators;
 

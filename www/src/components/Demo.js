@@ -1,66 +1,78 @@
 import React, { Component } from 'react';
 import Link from 'gatsby-link';
+import styled from 'styled-components';
 import { Container, Row, Col } from 'react-lime-grid';
 import { VirtualWindow, Code } from './';
 import { App } from './DemoFiles/';
 import { viewport } from '../constants';
 
-const Button = (props) => {
+const StyledButton = styled.button`
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 12px 18px;
+  background: ${props => props.active
+    ? 'rgba(0, 0, 0, 0.05)'
+    : 'transparent'};
+  border: none;
+  border-radius: 3px;
+  color: #000;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1.4;
+  transition: all 180ms ease-out;
+  cursor: ${props => props.active
+    ? 'default'
+    : 'pointer'};
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    background: ${props => props.active
+      ? 'rgba(0, 0, 0, 0.05)'
+      : 'rgba(0, 0, 0, 0.08)'};
+  }
+`;
+
+const StyledLink = StyledButton.withComponent(Link);
+
+const NavButton = (props) => {
   const {
     children,
-    active,
     ...rest
   } = props;
 
-  let Element = 'button';
+  let Element = StyledButton;
 
   if ('to' in props) {
-    Element = Link;
+    Element = StyledLink;
   }
 
   return (
-    <div className={`root ${active ? 'active' : ''}`}>
-      <style jsx>{`
-        .root :global(.button-element) {
-          display: block;
-          width: 100%;
-          margin: 0;
-          padding: 12px 18px;
-          background: transparent;
-          border: none;
-          border-radius: 3px;
-          color: #000;
-          text-align: left;
-          text-decoration: none;
-          cursor: pointer;
-          line-height: 1.4;
-          transition: all 180ms ease-out;
-        }
-
-        .root :global(.button-element):focus {
-          outline: none;
-        }
-
-        .root.active :global(.button-element),
-        .root :global(.button-element):hover {
-          background: rgba(0, 0, 0, 0.05);
-        }
-
-        .root:not(.active) :global(.button-element):active {
-          background: rgba(0, 0, 0, 0.08);
-        }
-
-        .root.active :global(.button-element) {
-          cursor: default;
-        }
-      `}</style>
-
-      <Element {...rest} className="button-element">
+    <div>
+      <Element {...rest}>
         {children}
       </Element>
     </div>
   );
 };
+
+
+const ListItemWrapper = styled.li`
+  display: block;
+  list-style: none;
+
+  &:not(:first-child) {
+    margin-top: 5px;
+  }
+`;
 
 class ListItem extends Component {
   handleClick = (e) => {
@@ -72,27 +84,65 @@ class ListItem extends Component {
     const { label, active } = this.props;
 
     return (
-      <li className="root">
-        <style jsx>{`
-          .root {
-            display: block;
-          }
-
-          .root:not(:first-child) {
-            margin-top: 5px;
-          }
-        `}</style>
-
-        <Button
+      <ListItemWrapper>
+        <NavButton
           onClick={this.handleClick}
           active={active}
         >
           {label}
-        </Button>
-      </li>
+        </NavButton>
+      </ListItemWrapper>
     );
   }
 }
+
+
+const VirtualWindowWrapper = styled.div`
+  margin-bottom: 30px;
+
+  & h1 {
+    margin: 0.2em 0;
+  }
+
+  & code[class*="language-"] {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  & ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  & ul:not(:first-child) {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  @media (${viewport.sm}) {
+    margin-bottom: 0;
+  }
+`;
+
+
+const Wrapper = styled.div`
+  & ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  & ul:not(:first-child) {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+`;
+
 
 export default class Demo extends Component {
   constructor(props) {
@@ -118,47 +168,12 @@ export default class Demo extends Component {
     ];
 
     return (
-      <div className="root">
+      <Wrapper>
         <Container>
-          <style jsx>{`
-            .virtual-window {
-              margin-bottom: 30px;
-            }
-
-            .virtual-window :global(h1) {
-              margin: 0.2em 0;
-            }
-
-            .virtual-window :global(code[class*="language-"]) {
-              margin: 0;
-              padding: 0;
-              background: #fff;
-              box-shadow: none;
-            }
-
-            ul {
-              margin: 0;
-              padding: 0;
-              list-style: none;
-            }
-
-            ul:not(:first-child) {
-              margin-top: 15px;
-              padding-top: 15px;
-              border-top: 1px solid rgba(0, 0, 0, 0.1);
-            }
-
-            @media (${viewport.sm}) {
-              .virtual-window {
-                margin-bottom: 0;
-              }
-            }
-          `}</style>
-
           <Row center="xs">
             <Col xs={12} sm={9} lg={8}>
-              <div className="virtual-window">
-                <VirtualWindow className="virtual-window">
+              <VirtualWindowWrapper>
+                <VirtualWindow>
                   <div className="tab">
                     <div
                       className="app"
@@ -184,10 +199,7 @@ export default class App extends Component {
 }`}</Code>
                     </div>
 
-                    <div
-                      className="form"
-                      style={{ display: value === 'form' ? 'block' : 'none' }}
-                    >
+                    <div style={{ display: value === 'form' ? 'block' : 'none' }}>
                       <Code>{`import React from 'react';
 import { dripForm } from 'react-drip-form';
 import Input from './Input';
@@ -274,7 +286,7 @@ export default dripFormField()(Input);`}</Code>
                     </div>
                   </div>
                 </VirtualWindow>
-              </div>
+              </VirtualWindowWrapper>
             </Col>
 
             <Col xs={12} sm={3} lg={4}>
@@ -292,14 +304,14 @@ export default dripFormField()(Input);`}</Code>
 
               <ul>
                 <li>
-                  <Button to="/docs/">Learn more</Button>
-                  <Button to="/examples/basic-form/">More Examples</Button>
+                  <NavButton to="/docs/">Learn more</NavButton>
+                  <NavButton to="/examples/basic-form/">More Examples</NavButton>
                 </li>
               </ul>
             </Col>
           </Row>
         </Container>
-      </div>
+      </Wrapper>
     );
   }
 }

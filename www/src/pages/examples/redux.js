@@ -1,11 +1,14 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
-import { dripForm } from '../../../../src/';
+import { dripForm } from 'react-drip-form';
+import { Input } from 'react-drip-form-components';
 import { Layout, Button, Code } from '../../components/';
-import { Input } from '../../fields/';
 
 
 // Simulate API
@@ -197,8 +200,12 @@ export default class BasicFormExample extends Component {
         <hr />
 
         <h3>Sample Code:</h3>
-        <Code language="javascript">{`import React, { Component } from 'react';
+        <Code language="javascript">{`import React from 'react';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
 import { dripForm } from 'react-drip-form';
+import { Input } from 'react-drip-form-components';
 
 
 // Simulate API

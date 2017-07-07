@@ -5,12 +5,10 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import Helmet from 'react-helmet';
-import flush from 'styled-jsx/server';
 import GitHubCorner from './components/GitHubCorner';
 
 export default (props) => {
   const head = Helmet.rewind();
-  const styles = flush();
 
   let css;
   if (process.env.NODE_ENV === 'production') {
@@ -36,7 +34,6 @@ export default (props) => {
         {head.title.toComponent()}
         {head.meta.toComponent()}
         {head.link.toComponent()}
-        {styles}
         {css}
       </head>
       <body>

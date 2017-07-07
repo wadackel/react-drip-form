@@ -88,7 +88,7 @@ code:not([class*="language-"]) {
   background: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
   font-family: var(--font-monospace);
-  font-size: 0.875em;
+  font-size: 0.875rem;
 }
 
 pre {
@@ -110,7 +110,7 @@ code[class*="language-"] {
   box-shadow: 0 2px 4px rgba(0, 0, 0, .16);
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  font-size: 0.875em;
+  font-size: 0.875rem;
   font-family: var(--font-monospace);
 }
 
@@ -129,12 +129,8 @@ hr {
   border-top: 1px solid #f0f0f0;
 }
 
-form,
-.form {
-}
-
-form label,
-.form label {
+form label:not([class]),
+.form label:not([class]) {
   display: block;
   margin-bottom: 0.2em;
   font-size: 1em;

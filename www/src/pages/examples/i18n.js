@@ -1,9 +1,12 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import 'drip-form-validator/lib/locale/ja'; // eslint-disable-line import/no-extraneous-dependencies
-import { dripForm, Validator } from '../../../../src/';
+import { dripForm, Validator } from 'react-drip-form';
+import { Input, Textarea } from 'react-drip-form-components';
+import 'drip-form-validator/lib/locale/ja';
 import { Layout, Button, Code } from '../../components/';
-import { Input, Textarea } from '../../fields/';
 
 
 const I18nForm = dripForm({
@@ -100,8 +103,10 @@ export default class BasicFormExample extends Component {
         <hr />
 
         <h3>Sample Code:</h3>
-        <Code language="javascript">{`import React, { Component } from 'react';
-import { dripForm } from 'react-drip-form';
+        <Code language="javascript">{`import React from 'react';
+import { dripForm, Validator } from 'react-drip-form';
+import { Input, Textarea } from 'react-drip-form-components';
+import 'drip-form-validator/lib/locale/ja';
 
 Validator.setLocale('ja')
 

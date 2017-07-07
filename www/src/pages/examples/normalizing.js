@@ -1,8 +1,11 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm } from '../../../../src/';
+import { dripForm } from 'react-drip-form';
+import { Input, Select } from 'react-drip-form-components';
 import { Layout, Button, Code } from '../../components/';
-import { Input, Select } from '../../fields/';
 
 
 const NormalizingForm = dripForm({
@@ -97,18 +100,6 @@ export default class NormalizingFormExample extends Component {
         title="Normalizing"
         location={location}
       >
-        <style jsx>{`
-          :global(form > div) {
-            margin-bottom: 1em;
-          }
-
-          :global(form > div label) {
-            display: block;
-            margin: 0 0 0.2em;
-            font-weight: bold;
-          }
-        `}</style>
-
         <p>
           Values can be normalized by specifying <code>normalizers</code> as an option to <code>dripForm()</code>.<br />
           See <a href="https://tsuyoshiwada.github.io/drip-form-validator/normalizers/">Built-in Normalizers</a> for Normalizer which can be specified.
@@ -135,8 +126,9 @@ export default class NormalizingFormExample extends Component {
         <hr />
 
         <h3>Sample Code:</h3>
-        <Code language="javascript">{`import React, { Component } from 'react';
+        <Code language="javascript">{`import React from 'react';
 import { dripForm } from 'react-drip-form';
+import { Input, Select } from 'react-drip-form-components';
 
 const NormalizingForm = dripForm({
   validations: {

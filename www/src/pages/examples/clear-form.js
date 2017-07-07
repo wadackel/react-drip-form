@@ -1,13 +1,16 @@
 /* eslint-disable no-alert */
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { Component } from 'react';
-import { dripForm } from '../../../../src/';
-import { Layout, Button, Code } from '../../components/';
+import { dripForm } from 'react-drip-form';
 import {
   Input,
   FieldGroup,
   Checkbox,
   Radio,
-} from '../../fields/';
+} from 'react-drip-form-components';
+import { Layout, Button, Code } from '../../components/';
 
 
 const ClearForm = dripForm({
@@ -128,6 +131,12 @@ export default class ClearFormExample extends Component {
         <h3>Sample Code:</h3>
         <Code language="javascript">{`import React from 'react';
 import { dripForm } from 'react-drip-form';
+import {
+  Input,
+  FieldGroup,
+  Checkbox,
+  Radio,
+} from 'react-drip-form-components';
 
 const ClearForm = dripForm({
   validations: {
