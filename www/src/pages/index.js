@@ -84,7 +84,7 @@ const ComponentLink = styled.a`
   }
 
   & div {
-    padding: 2em 1em;
+    padding: 1.5em 1em;
   }
 
   & h3 {
@@ -184,6 +184,12 @@ export default () => (
             href="https://github.com/tsuyoshiwada/react-drip-form-components"
             title="Official UI Components"
             image="react-drip-form-components.png"
+          />
+
+          <ComponentItem
+            href="https://github.com/tsuyoshiwada/react-drip-form-material-ui"
+            title="Material-UI "
+            image="react-drip-form-material-ui.png"
           />
         </Row>
       </Container>

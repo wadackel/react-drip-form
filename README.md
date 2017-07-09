@@ -188,7 +188,7 @@ See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
 ### Components
 
 * [x] [react-drip-form-components](https://github.com/tsuyoshiwada/react-drip-form-components)
-* [ ] [react-drip-form-material-ui](https://github.com/callemall/material-ui)
+* [x] [react-drip-form-material-ui](https://github.com/tsuyoshiwada/react-drip-form-material-ui)
 * [ ] [react-drip-form-bootstrap](https://github.com/react-bootstrap/react-bootstrap)
 * [ ] [react-drip-form-toolbox](https://github.com/react-toolbox/react-toolbox)
 * [ ] [react-drip-form-rebass](https://github.com/jxnblk/rebass)

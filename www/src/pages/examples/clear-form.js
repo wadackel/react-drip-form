@@ -115,7 +115,6 @@ export default class ClearFormExample extends Component {
 
         <h3>Example:</h3>
         <ClearForm
-          values={values}
           onChange={v => this.setState({ values: v })}
           onValidSubmit={(v) => {
             alert('See console');
