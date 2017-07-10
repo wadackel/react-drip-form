@@ -1,10 +1,10 @@
 ---
 title: Testing
 previous:
-  link: ../tutorial/
+  link: /docs/tutorial/
   title: Tutorial
 next:
-  link: ../flow/
+  link: /docs/flow/
   title: Flow
 ---
 

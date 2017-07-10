@@ -1,10 +1,10 @@
 ---
 title: dripFormGroup()
 previous:
-  link: ../drip-form-field/
+  link: /docs/api/drip-form-field/
   title: dripFormField()
 next:
-  link: ../validator/
+  link: /docs/api/validator/
   title: Validator
 ---
 

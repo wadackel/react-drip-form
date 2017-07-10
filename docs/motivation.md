@@ -1,10 +1,10 @@
 ---
 title: Motivation
 previous:
-  link: ../
+  link: /docs/
   title: Quick Start
 next:
-  link: ../tutorial/
+  link: /docs/tutorial/
   title: Tutorial
 ---
 

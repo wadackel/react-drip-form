@@ -1,10 +1,10 @@
 ---
 title: Tutorial
 previous:
-  link: ../motivation/
+  link: /docs/motivation/
   title: Motivation
 next:
-  link: ../testing/
+  link: /docs/testing/
   title: Testing
 ---
 

@@ -1,10 +1,10 @@
 ---
 title: Quick Start
 previous:
-  link: ../
+  link: /
   title: HOME
 next:
-  link: ./motivation/
+  link: /docs/motivation/
   title: Motivation
 ---
 

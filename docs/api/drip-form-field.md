@@ -1,10 +1,10 @@
 ---
 title: dripFormField()
 previous:
-  link: ../drip-form/
+  link: /docs/api/drip-form/
   title: dripForm()
 next:
-  link: ../drip-form-group/
+  link: /docs/api/drip-form-group/
   title: dripFormGroup()
 ---
 

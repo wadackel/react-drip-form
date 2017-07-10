@@ -1,10 +1,10 @@
 ---
 title: Validator
 previous:
-  link: ../drip-form-group/
+  link: /docs/api/drip-form-group/
   title: dripFormGroup()
 next:
-  link: ../../../examples/basic-form/
+  link: /examples/basic-form/
   title: Examples
 ---
 

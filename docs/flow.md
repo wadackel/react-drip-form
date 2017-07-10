@@ -1,10 +1,10 @@
 ---
 title: Flow
 previous:
-  link: ../testing/
+  link: /docs/testing/
   title: Testing
 next:
-  link: ../api/drip-form/
+  link: /docs/api/drip-form/
   title: dripForm()
 ---
 

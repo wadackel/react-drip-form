@@ -1,10 +1,10 @@
 ---
 title: dripForm()
 previous:
-  link: ../../flow/
+  link: /docs/flow/
   title: Flow
 next:
-  link: ../drip-form-field/
+  link: /docs/api/drip-form-field/
   title: dripFormField()
 ---
 
