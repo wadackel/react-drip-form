@@ -1,5 +1,11 @@
 ---
 title: Quick Start
+previous:
+  link: ../
+  title: HOME
+next:
+  link: ./motivation/
+  title: Motivation
 ---
 
 

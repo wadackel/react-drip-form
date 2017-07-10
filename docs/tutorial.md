@@ -1,5 +1,11 @@
 ---
 title: Tutorial
+previous:
+  link: ../motivation/
+  title: Motivation
+next:
+  link: ../testing/
+  title: Testing
 ---
 
 

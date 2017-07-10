@@ -25,6 +25,10 @@ https://tsuyoshiwada.github.io/react-drip-form/
 * [Related projects](#related-projects)
   * [Components](#components)
   * [Validator](#validator)
+* [ChangeLog](#changelog)
+* [TODO](#todo)
+  * [Core](#core)
+  * [Components](#components)
 * [Contribute](#contribute)
 * [License](#license)
 
@@ -176,6 +180,7 @@ Let's enjoy coffee break slowly.
 
 
 
+
 ## Documentation
 
 See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
@@ -184,21 +189,43 @@ See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
 
 ## Related projects
 
-
 ### Components
 
-* [x] [react-drip-form-components](https://github.com/tsuyoshiwada/react-drip-form-components)
-* [x] [react-drip-form-material-ui](https://github.com/tsuyoshiwada/react-drip-form-material-ui)
-* [ ] [react-drip-form-bootstrap](https://github.com/react-bootstrap/react-bootstrap)
-* [ ] [react-drip-form-toolbox](https://github.com/react-toolbox/react-toolbox)
-* [ ] [react-drip-form-rebass](https://github.com/jxnblk/rebass)
-* [ ] [react-drip-form-antd](https://github.com/ant-design/ant-design)
-* [ ] [react-drip-form-office-ui-fabric](https://github.com/OfficeDev/office-ui-fabric-react)
-
+* [react-drip-form-components](https://github.com/tsuyoshiwada/react-drip-form-components)
+* [react-drip-form-material-ui](https://github.com/tsuyoshiwada/react-drip-form-material-ui)
 
 ### Validator
 
 * [drip-form-validator](https://github.com/tsuyoshiwada/drip-form-validator)
+
+
+
+
+## ChangeLog
+
+See [CHANGELOG.md](./CHANGELOG.md)
+
+
+
+
+## TODO
+
+We are planning to proceed with work, but the contribution is greatly appreciated!
+
+### Core
+
+* [ ] File handling
+* [ ] Testing section in Documentation
+* [ ] Support for Flow
+* [ ] Support for TypeScript
+
+### Components
+
+* [ ] [react-drip-form-toolbox](https://github.com/react-toolbox/react-toolbox)
+* [ ] [react-drip-form-rebass](https://github.com/jxnblk/rebass)
+* [ ] [react-drip-form-office-ui-fabric](https://github.com/OfficeDev/office-ui-fabric-react)
+* [ ] [react-drip-form-antd](https://github.com/ant-design/ant-design)
+* [ ] [react-drip-form-bootstrap](https://github.com/react-bootstrap/react-bootstrap)
 
 
 

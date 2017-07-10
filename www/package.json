@@ -3,10 +3,10 @@
   "scripts": {
     "start": "gatsby develop",
     "lint": "eslint \"src/**/*.js\"",
-    "clean": "rimraf public",
-    "build": "npm run clean && gatsby build",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
-    "prebuild": "npm run lint"
+    "clean": "rimraf public .cache",
+    "build": "gatsby build",
+    "deploy": "npm run build -- --prefix-paths && gh-pages -d public",
+    "prebuild": "npm run clean"
   },
   "dependencies": {
     "bluebird": "^3.5.0",

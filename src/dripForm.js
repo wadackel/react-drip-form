@@ -492,7 +492,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
         this.validate();
       };
 
-      fieldSwap = (field: string, indexA: number, indexB: number): any => {
+      fieldSwap = (field: string, indexA: number, indexB: number): void => {
         const current = this.fieldGetArray(field);
 
         if (current.length < 2) {
@@ -508,7 +508,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
         this.validate();
       };
 
-      fieldMove = (field: string, from: number, to: number): any => {
+      fieldMove = (field: string, from: number, to: number): void => {
         const current = this.fieldGetArray(field);
 
         if (current.length < 2) {

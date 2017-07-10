@@ -2,18 +2,25 @@
 import React from 'react';
 import { Layout } from '../components/';
 
-export default ({ data, location }) => (
-  <Layout
-    title={data.markdownRemark.frontmatter.title}
-    location={location}
-  >
-    <div
-      dangerouslySetInnerHTML={{
-        __html: data.markdownRemark.html,
-      }}
-    />
-  </Layout>
-);
+
+export default ({ data, location }) => {
+  const { frontmatter, html: __html } = data.markdownRemark;
+
+  return (
+    <Layout
+      title={frontmatter.title}
+      location={location}
+      previous={frontmatter.previous}
+      next={frontmatter.next}
+    >
+      <div
+        dangerouslySetInnerHTML={{
+          __html,
+        }}
+      />
+    </Layout>
+  );
+};
 
 // eslint-disable-next-line
 export const pageQuery = graphql`
@@ -22,6 +29,14 @@ export const pageQuery = graphql`
       html
       frontmatter {
         title
+        previous {
+          link
+          title
+        }
+        next {
+          link
+          title
+        }
       }
     }
   }

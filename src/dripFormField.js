@@ -30,7 +30,7 @@ import type {
 
 export type Props = {
   name: string;
-  value: any;
+  value?: any;
   label?: string;
   parser?: FieldParser;
   formatter?: FieldFormatter;
