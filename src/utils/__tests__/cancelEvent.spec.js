@@ -1,7 +1,7 @@
 import cancelEvent from '../cancelEvent';
 
 
-describe('utils#createFieldProps()', () => {
+describe('utils#cancelEvent()', () => {
   test('Should be cancel event', () => {
     const mock = {
       stopPropagation: jest.fn(),
