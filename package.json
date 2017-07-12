@@ -1,6 +1,6 @@
 {
   "name": "react-drip-form",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "description": "HoC based React forms state manager, Support for validation and normalization.",
   "main": "lib/index.js",
   "scripts": {
