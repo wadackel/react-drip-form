@@ -23,7 +23,7 @@ This tutorial works with [create-react-app](https://github.com/facebookincubator
 Create a FieldComponent to be included in the form.  
 Use `dripFormField()` to create a FieldComponent.
 
-FieldComponent defines the component using `input`, `props`, `meta`, passed via Hoc.  
+FieldComponent defines the component using `input`, `meta`, passed via Hoc.  
 Let's check the API of [dripFormField()](../api/drip-form-field/) for details.
 
 
@@ -38,7 +38,7 @@ Let's do the minimum implementation.
 import React from 'react';
 import { dripFormField } from 'react-drip-form';
 
-const Input = ({ input, props }) => (
+const Input = ({ input, meta, ...props }) => (
   <input
     {...input}
     {...props}
@@ -58,7 +58,7 @@ Let's implement an error indication.
 import React from 'react';
 import { dripFormField } from 'react-drip-form';
 
-const Input = ({ input, props, meta }) => (
+const Input = ({ input, meta, ...props }) => (
   <div>
     <input
       {...input}
@@ -89,7 +89,7 @@ There is one point difference. `type` must be specified as the first argument of
 import React from 'react';
 import { dripFormField } from 'react-drip-form';
 
-const Checkbox = ({ input, props, meta }) => (
+const Checkbox = ({ input, meta, ...props }) => (
   <span>
     <input
       {...input}
@@ -118,7 +118,7 @@ There is nothing special except specifying `type` just like Checkbox.
 import React from 'react';
 import { dripFormField } from 'react-drip-form';
 
-const Radio = ({ input, props, meta }) => (
+const Radio = ({ input, meta, ...props }) => (
   <span>
     <input
       {...input}
@@ -146,11 +146,9 @@ import { dripFormField } from 'react-drip-form';
 
 const Select = ({
   input,
-  props: {
-    children,
-    ...props
-  },
   meta,
+  children,
+  ...props
 }) => (
   <div>
     <select

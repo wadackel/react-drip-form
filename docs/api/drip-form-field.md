@@ -88,7 +88,8 @@ You can specify the default Props For the wrapped component.
 
 ## Proxy Props
 
-List of Props provided for wrapped components.
+List of Props provided for wrapped components.  
+Apart from `input` and` meta`, Props passed to the field component is passed as is.
 
 
 ### input
@@ -212,13 +213,6 @@ The opposite of `meta.dirty`.
 `true` if the field is validating.
 
 
-### props
-
-* **Type:** `Object`
-
-All other Props except the above are assigned to `props`.
-
-
 
 ---
 
@@ -227,7 +221,7 @@ All other Props except the above are assigned to `props`.
 ## Props
 
 Components after wrapping can specify the following Props.  
-All other than Props below are passed directly to `props`.
+All other than Props below are passed directly to Props.
 
 
 ### name
