@@ -179,7 +179,6 @@ export const FieldPropTypes = {
     pristine: PropTypes.bool.isRequired,
     validating: PropTypes.bool.isRequired,
   }).isRequired,
-  props: PropTypes.object.isRequired,
 };
 
 export const GroupPropTypes = {
