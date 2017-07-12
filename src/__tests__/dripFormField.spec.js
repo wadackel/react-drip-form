@@ -88,10 +88,8 @@ describe('dripFormField()', () => {
         context: mockContext(),
       });
 
-    expect(wrapper.prop('props')).toEqual({
-      id: 'foo-bar',
-      className: 'hoge-fuga',
-    });
+    expect(wrapper.prop('id')).toBe('foo-bar');
+    expect(wrapper.prop('className')).toBe('hoge-fuga');
   });
 
 
@@ -826,7 +824,7 @@ describe('dripFormField()', () => {
     const onChange = jest.fn();
 
     const wrapper = mockMount('text',
-      ({ input, props }) => (
+      ({ input, meta, ...props }) => (
         <input
           {...props}
           {...input}
@@ -853,7 +851,7 @@ describe('dripFormField()', () => {
     const updateTouched = jest.fn();
 
     const wrapper = mockMount('text',
-      ({ input, props }) => (
+      ({ input, meta, ...props }) => (
         <input
           {...props}
           {...input}
@@ -918,7 +916,7 @@ describe('dripFormField()', () => {
     const updateValue = jest.fn();
     const updateTouched = jest.fn();
 
-    const wrapper = mockMount('radio', ({ input, props }) => (
+    const wrapper = mockMount('radio', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}
@@ -987,7 +985,7 @@ describe('dripFormField()', () => {
     const updateValue = jest.fn();
     const updateTouched = jest.fn();
 
-    const wrapper = mockMount('checkbox', ({ input, props }) => (
+    const wrapper = mockMount('checkbox', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}
@@ -1055,7 +1053,7 @@ describe('dripFormField()', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
 
-    const wrapper = mockMount('file', ({ input, props }) => (
+    const wrapper = mockMount('file', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}
@@ -1097,7 +1095,7 @@ describe('dripFormField()', () => {
     const name = 'fieldName';
     const updateValue = jest.fn();
 
-    const wrapper = mockMount('select', ({ input, props }) => (
+    const wrapper = mockMount('select', ({ input, meta, ...props }) => (
       <select
         {...props}
         {...input}
@@ -1138,7 +1136,7 @@ describe('dripFormField()', () => {
   test('Should be handle onBlur', () => {
     const name = 'blurFieldName';
     const onBlur = jest.fn();
-    const wrapper = mockMount('text', ({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}
@@ -1159,7 +1157,7 @@ describe('dripFormField()', () => {
   test('Should be update touch status when handleBlur', () => {
     const name = 'blurFieldName';
     const updateTouched = jest.fn();
-    const wrapper = mockMount('text', ({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, meta, ...props }) => (
       <input
         {...input}
         {...props}
@@ -1187,7 +1185,7 @@ describe('dripFormField()', () => {
     const name = 'testField';
     const parser = jest.fn((v, k) => `${k} ${v}`);
     const updateValue = jest.fn();
-    const wrapper = mockMount('text', ({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}
@@ -1226,7 +1224,7 @@ describe('dripFormField()', () => {
     const name = 'formatField';
     const formatter = jest.fn((v, k) => `${k} ${v}`);
 
-    const wrapper = mockMount('text', ({ input, props }) => (
+    const wrapper = mockMount('text', ({ input, meta, ...props }) => (
       <input
         {...props}
         {...input}

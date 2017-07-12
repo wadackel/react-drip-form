@@ -365,6 +365,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
         return (
           <WrappedComponent
             {...createFieldProps(this.getType(), contextValue, {
+              ...props,
               input: {
                 name,
                 value,
@@ -384,7 +385,6 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
                 pristine: this.isPristine(),
                 validating: this.isValidating(),
               },
-              props,
             })}
           />
         );

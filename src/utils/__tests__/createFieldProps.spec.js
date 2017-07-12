@@ -1,6 +1,7 @@
 import createFieldProps from '../createFieldProps';
 
 const mock = (input = {}, meta = {}, props = {}) => ({
+  ...props,
   input: {
     name: 'name',
     value: 'value',
@@ -21,9 +22,6 @@ const mock = (input = {}, meta = {}, props = {}) => ({
     dirty: false,
     pristine: false,
     ...meta,
-  },
-  props: {
-    ...props,
   },
 });
 

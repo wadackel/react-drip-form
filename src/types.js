@@ -124,7 +124,6 @@ export type FieldProps = {
     pristine: boolean;
     validating: boolean;
   };
-  props: Object;
 };
 
 export const FormPropTypes = {
