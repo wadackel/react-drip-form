@@ -193,6 +193,7 @@ See [Document page](https://tsuyoshiwada.github.io/react-drip-form/).
 
 * [react-drip-form-components](https://github.com/tsuyoshiwada/react-drip-form-components)
 * [react-drip-form-material-ui](https://github.com/tsuyoshiwada/react-drip-form-material-ui)
+* [react-drip-form-bootstrap](https://github.com/tsuyoshiwada/react-drip-form-bootstrap)
 
 ### Validator
 
@@ -225,7 +226,6 @@ We are planning to proceed with work, but the contribution is greatly appreciate
 * [ ] [react-drip-form-rebass](https://github.com/jxnblk/rebass)
 * [ ] [react-drip-form-office-ui-fabric](https://github.com/OfficeDev/office-ui-fabric-react)
 * [ ] [react-drip-form-antd](https://github.com/ant-design/ant-design)
-* [ ] [react-drip-form-bootstrap](https://github.com/react-bootstrap/react-bootstrap)
 
 
 

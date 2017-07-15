@@ -58,8 +58,29 @@ const Section = styled.section`
   }
 `;
 
+const ComponentThumbnail = styled.div`
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0 0 67.56% !important;
 
-/* eslint-disable */
+  > span {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: none;
+    background-position: center;
+    background-size: cover;
+    transform: scale(1);
+    transition: all 200ms ease-out;
+  }
+`;
+
 const ComponentLink = styled.a`
   display: block;
   overflow: hidden;
@@ -67,20 +88,13 @@ const ComponentLink = styled.a`
   background: #fff;
   border-radius: 3px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.16);
+  transition: all 120ms ease-out;
   color: inherit;
   text-decoration: none;
 
   &:hover {
     color: #20c59d;
-  }
-
-  & img {
-    vertical-align: top;
-    transition: all 120ms ease-out;
-  }
-
-  &:hover img {
-    opacity: 0.8;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.11);
   }
 
   & div {
@@ -90,7 +104,6 @@ const ComponentLink = styled.a`
   & h3 {
     margin: 0;
     font-size: 1rem;
-    transition: color 80ms ease-out;
   }
 
   & p {
@@ -100,6 +113,10 @@ const ComponentLink = styled.a`
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #a0a0a0 !important;
+  }
+
+  &:hover ${ComponentThumbnail} > span {
+    transform: scale(1.05);
   }
 `;
 
@@ -113,11 +130,11 @@ const ComponentItem = ({
       href={href}
       title={title}
     >
-      <img
-        src={`./components/${image}`}
-        alt={title}
-        title={title}
-      />
+      <ComponentThumbnail>
+        <span
+          style={{ backgroundImage: `url("components/${image}")` }}
+        />
+      </ComponentThumbnail>
       <div>
         <h3>{title}</h3>
         <p>{href}</p>
@@ -188,8 +205,14 @@ export default () => (
 
           <ComponentItem
             href="https://github.com/tsuyoshiwada/react-drip-form-material-ui"
-            title="Material-UI "
+            title="Material-UI"
             image="react-drip-form-material-ui.png"
+          />
+
+          <ComponentItem
+            href="https://github.com/tsuyoshiwada/react-drip-form-bootstrap"
+            title="React Bootstrap"
+            image="react-drip-form-bootstrap.png"
           />
         </Row>
       </Container>
