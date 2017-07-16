@@ -263,12 +263,12 @@ import { dripFormField } from 'react-drip-form';
 
 const Input = ({
   input,
-  props,
   meta: { error, dirty, touched },
+  ...rest
 }) => (
   <div>
     <input
-      {...props}
+      {...rest}
       {...input}
     />
     {error && dirty && touched && <span style={{ color: 'red' }}>{error}</span>}
