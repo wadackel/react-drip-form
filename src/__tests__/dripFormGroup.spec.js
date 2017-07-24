@@ -244,7 +244,7 @@ describe('dripFormGroup()', () => {
     });
 
     expect(updateValue.mock.calls.length).toBe(1);
-    expect(updateValue.mock.calls[0]).toEqual(['foo', null, false]);
+    expect(updateValue.mock.calls[0]).toEqual(['foo', null, false, true]);
 
     mockShallow(() => <div />, {
       name: 'bar',
@@ -254,7 +254,7 @@ describe('dripFormGroup()', () => {
     });
 
     expect(updateValue.mock.calls.length).toBe(2);
-    expect(updateValue.mock.calls[1]).toEqual(['bar', 'props value', false]);
+    expect(updateValue.mock.calls[1]).toEqual(['bar', 'props value', false, true]);
   });
 
 
@@ -297,6 +297,7 @@ describe('dripFormGroup()', () => {
     expect(updateValue.mock.calls[0]).toEqual([
       name,
       'changed value',
+      true,
       true,
     ]);
 

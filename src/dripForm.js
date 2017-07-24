@@ -199,15 +199,21 @@ const dripForm = (formOptions: FormOptions = {}) => {
         return this.state.values;
       }
 
-      setValues(values: Values): void {
-        const { onChange } = this.props;
-
+      setValues(values: Values, silent: boolean = false): void {
         this.values = values;
         this.setStateIfMounted({ values });
         this.validator.setValues(values);
 
+        if (silent === false) {
+          this.callOnChange();
+        }
+      }
+
+      callOnChange(): void {
+        const { onChange } = this.props;
+
         if (typeof onChange === 'function') {
-          onChange(values, this);
+          onChange(this.values, this);
         }
       }
 
@@ -319,13 +325,17 @@ const dripForm = (formOptions: FormOptions = {}) => {
         });
       };
 
-      updateValue = (name: string, value: any, validate: boolean): void => {
+      updateValue = (name: string, value: any, validate: boolean, silent: boolean): void => {
         const values = getShallowFilteredValues(dot.set(this.values, name, value));
-        this.setValues(values);
+        this.setValues(values, true);
 
         if (validate) {
           if (options.normalizeOnChange) this.normalize(name);
           if (options.validateOnChange) this.validate();
+        }
+
+        if (silent === false) {
+          this.callOnChange();
         }
       };
 
@@ -596,7 +606,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
       normalize(name?: string | string[]): void {
         const v = this.validator;
         v.normalize(name);
-        this.setValues(v.getValues());
+        this.setValues(v.getValues(), true);
       }
 
       submit(): void {

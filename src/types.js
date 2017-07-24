@@ -62,7 +62,7 @@ export type DFContext = {
   };
   register: Function;
   unregister: Function;
-  updateValue: (name: string, value: any, validate: boolean) => void;
+  updateValue: (name: string, value: any, validate: boolean, silent: boolean) => void;
   updateTouched: (name: string, touched: boolean, validate: boolean) => void;
   updateDirty: (name: string, dirty: boolean) => void;
   updateValidations: (name: string, validations: ?Validations, validate: boolean) => void;

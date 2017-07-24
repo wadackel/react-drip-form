@@ -172,7 +172,7 @@ describe('dripFormField()', () => {
     }, {
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false, true]);
 
     updateValue.mockClear();
     mockShallow('text', () => <div />, {
@@ -181,7 +181,7 @@ describe('dripFormField()', () => {
       values: { [name]: 'value!!' },
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, 'value!!', false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, 'value!!', false, true]);
 
     updateValue.mockClear();
     mockShallow('text', () => <div />, {
@@ -191,7 +191,7 @@ describe('dripFormField()', () => {
       values: {},
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, 'value', false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, 'value', false, true]);
 
     updateValue.mockClear();
     mockShallow('radio', () => <div />, {
@@ -201,7 +201,7 @@ describe('dripFormField()', () => {
       values: {},
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false, true]);
 
     updateValue.mockClear();
     mockShallow('radio', () => <div />, {
@@ -211,7 +211,7 @@ describe('dripFormField()', () => {
       values: { [name]: 'radio value' },
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, 'radio value', false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, 'radio value', false, true]);
 
     updateValue.mockClear();
     mockShallow('checkbox', () => <div />, {
@@ -221,7 +221,7 @@ describe('dripFormField()', () => {
       values: {},
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, null, false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, null, false, true]);
 
     updateValue.mockClear();
     mockShallow('checkbox', () => <div />, {
@@ -231,7 +231,7 @@ describe('dripFormField()', () => {
       values: { [name]: 'checkbox value' },
       updateValue,
     });
-    expect(updateValue.mock.calls[0]).toEqual([name, 'checkbox value', false]);
+    expect(updateValue.mock.calls[0]).toEqual([name, 'checkbox value', false, true]);
   });
 
 
@@ -375,6 +375,7 @@ describe('dripFormField()', () => {
     expect(updateValue.mock.calls[0]).toEqual([
       name,
       'next value',
+      true,
       true,
     ]);
 
@@ -880,6 +881,7 @@ describe('dripFormField()', () => {
       name,
       'text value',
       true,
+      false,
     ]);
 
     expect(updateDirty.mock.calls.length).toBe(1);
@@ -899,6 +901,7 @@ describe('dripFormField()', () => {
       name,
       '',
       true,
+      false,
     ]);
 
     expect(updateDirty.mock.calls.length).toBe(2);
@@ -947,6 +950,7 @@ describe('dripFormField()', () => {
       name,
       'text value',
       true,
+      false,
     ]);
 
     expect(updateTouched.mock.calls.length).toBe(1);
@@ -969,6 +973,7 @@ describe('dripFormField()', () => {
       name,
       'text value',
       true,
+      false,
     ]);
 
     expect(updateTouched.mock.calls.length).toBe(2);
@@ -1016,6 +1021,7 @@ describe('dripFormField()', () => {
       name,
       'text value',
       true,
+      false,
     ]);
 
     expect(updateTouched.mock.calls.length).toBe(1);
@@ -1038,6 +1044,7 @@ describe('dripFormField()', () => {
       name,
       '',
       true,
+      false,
     ]);
 
     expect(updateTouched.mock.calls.length).toBe(2);
@@ -1087,6 +1094,7 @@ describe('dripFormField()', () => {
         'file 3',
       ],
       true,
+      false,
     ]);
   });
 
@@ -1129,6 +1137,7 @@ describe('dripFormField()', () => {
         'select 3',
       ],
       true,
+      false,
     ]);
   });
 
@@ -1216,6 +1225,7 @@ describe('dripFormField()', () => {
       name,
       `${name} changed value`,
       true,
+      false,
     ]);
   });
 
