@@ -188,7 +188,9 @@ export default class BasicFormExample extends Component {
 
         <h3>Example:</h3>
         <BasicForm
-          onChange={v => this.setState({ values: v })}
+          onChange={(v) => {
+            this.setState({ values: v });
+          }}
           onValidSubmit={(v) => {
             alert('See console');
             console.log(v);

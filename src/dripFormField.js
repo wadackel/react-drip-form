@@ -119,7 +119,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
         }
 
         if (!this.context.group) {
-          this.context.updateValue(this.name, value, false);
+          this.context.updateValue(this.name, value, false, true);
         }
 
         this.updateMetaData(this.props, this.context, false);
@@ -162,7 +162,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
 
         if (!isEqual(value, _value)) {
           this.initialValue = value;
-          updateValue(name, value, true);
+          updateValue(name, value, true, true);
         }
 
         if (!this.context.group) {
@@ -315,7 +315,7 @@ const dripFormField = (fieldType: FieldType = 'text', options: FieldOptions = {}
         }
 
         updateDirty(this.name, dirty);
-        updateValue(this.name, value, true);
+        updateValue(this.name, value, true, false);
 
         if (typeof this.props.onChange === 'function') {
           this.props.onChange(e);

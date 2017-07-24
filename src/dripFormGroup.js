@@ -92,7 +92,7 @@ const dripFormGroup = (options: GroupOptions = {}) => (
           ? this.props.value
           : dot.get(this.context.values, name);
 
-        this.context.updateValue(name, value, false);
+        this.context.updateValue(name, value, false, true);
         this.updateMetaData(this.props, this.context, false);
       }
 
@@ -124,7 +124,7 @@ const dripFormGroup = (options: GroupOptions = {}) => (
 
         if (!isEqual(value, _value)) {
           this.initialValue = value;
-          updateValue(name, value, true);
+          updateValue(name, value, true, true);
         }
 
         if (label !== _label) {

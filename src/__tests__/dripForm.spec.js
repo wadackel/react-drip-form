@@ -159,6 +159,22 @@ describe('dripForm()', () => {
   });
 
 
+  test('Should be call onChange', () => {
+    const onChange = jest.fn();
+    const form = mockShallow(() => <div />, {
+      onChange,
+    }).instance();
+
+    onChange.mockClear();
+
+    expect(onChange.mock.calls.length).toBe(0);
+
+    form.onChangeIfNeeded();
+
+    expect(onChange.mock.calls.length).toBe(1);
+  });
+
+
   test('Should be set values', () => {
     const onChange = jest.fn();
     const wrapper = mockShallow(() => <div />, { onChange });
@@ -183,6 +199,14 @@ describe('dripForm()', () => {
     expect(form.validator.getValues()).toEqual(values);
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0]).toEqual([values, form]);
+
+    onChange.mockClear();
+    form.setValues({}, true);
+
+    expect(wrapper.state('values')).toEqual({});
+    expect(form.values).toEqual({});
+    expect(form.validator.getValues()).toEqual({});
+    expect(onChange.mock.calls.length).toBe(0);
   });
 
 

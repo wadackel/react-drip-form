@@ -508,9 +508,10 @@ You can get a DripForm instance using `onInitialize()` as follows.
 
 It is a value with `name` of each field as a key.  
 
-### setValues(values: Object): void
+### setValues(values: Object, silent: boolean = false): void
 
 Specify an object whose key is the `name` attribute of the field.  
+If `silent` is` true`, `onChange()` will not be called.
 
 ### initialValues(): Object
 

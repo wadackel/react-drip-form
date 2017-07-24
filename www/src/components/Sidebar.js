@@ -168,6 +168,7 @@ const Sidebar = () => (
             <li><Link to="/examples/basic-form/">Basic Form</Link></li>
             <li><Link to="/examples/clear-form/">Clear Form</Link></li>
             <li><Link to="/examples/reset-form/">Reset Form</Link></li>
+            <li><Link to="/examples/initial-values/">Initial Values</Link></li>
             <li><Link to="/examples/nest-fields/">Nest Fields</Link></li>
             <li><Link to="/examples/field-level-validation/">Field Level Validation</Link></li>
             <li><Link to="/examples/submit-validation/">Submit Validation</Link></li>
