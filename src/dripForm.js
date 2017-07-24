@@ -205,11 +205,11 @@ const dripForm = (formOptions: FormOptions = {}) => {
         this.validator.setValues(values);
 
         if (silent === false) {
-          this.callOnChange();
+          this.onChangeIfNeeded();
         }
       }
 
-      callOnChange(): void {
+      onChangeIfNeeded(): void {
         const { onChange } = this.props;
 
         if (typeof onChange === 'function') {
@@ -335,7 +335,7 @@ const dripForm = (formOptions: FormOptions = {}) => {
         }
 
         if (silent === false) {
-          this.callOnChange();
+          this.onChangeIfNeeded();
         }
       };
 
