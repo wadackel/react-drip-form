@@ -216,7 +216,7 @@ We are planning to proceed with work, but the contribution is greatly appreciate
 ### Core
 
 * [ ] File handling
-* [ ] Testing section in Documentation
+* [x] Testing section in Documentation
 * [ ] Support for Flow
 * [ ] Support for TypeScript
 
