@@ -2,12 +2,6 @@
 # yarn lockfile v1
 
 
-"@types/date-fns@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@types/date-fns/-/date-fns-2.6.0.tgz#b062ca46562002909be0c63a6467ed173136acc1"
-  dependencies:
-    date-fns "*"
-
 "@types/invariant@^2.2.28":
   version "2.2.28"
   resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.28.tgz#ad721b5c0168db3aaffe551d4acfb8a5b4386e30"
@@ -46,9 +40,9 @@
   version "4.14.66"
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.66.tgz#3dbb83477becf130611f8fac82a8fdb199805981"
 
-"@types/validator@^6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-6.2.0.tgz#020322fe1929f69889eb675a1bdb5a98394b71f0"
+"@types/validator@^6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-6.2.1.tgz#15ee3c2934b0bd03897116c598f93eef9f3a85e2"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -1410,7 +1404,7 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@*, date-fns@^1.28.5:
+date-fns@^1.28.5:
   version "1.28.5"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.28.5.tgz#257cfc45d322df45ef5658665967ee841cd73faf"
 
@@ -1528,18 +1522,17 @@ dot-wild@^2.2.4:
     clone "^2.1.1"
     is-plain-object "^2.0.3"
 
-drip-form-validator@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/drip-form-validator/-/drip-form-validator-0.0.5.tgz#e9ab3e9a27fc446439f8b04353085962681b6a4e"
+drip-form-validator@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/drip-form-validator/-/drip-form-validator-0.0.6.tgz#c4a77b81c1677116e03af8b4f26c348b36334f0a"
   dependencies:
-    "@types/date-fns" "^2.6.0"
     "@types/invariant" "^2.2.28"
     "@types/lodash.foreach" "^4.5.2"
     "@types/lodash.isempty" "^4.4.2"
     "@types/lodash.isequal" "^4.5.1"
     "@types/lodash.isplainobject" "^4.0.2"
     "@types/lodash.map" "^4.6.0"
-    "@types/validator" "^6.2.0"
+    "@types/validator" "^6.2.1"
     date-fns "^1.28.5"
     dot-wild "^2.2.4"
     invariant "^2.2.2"
@@ -1548,7 +1541,7 @@ drip-form-validator@^0.0.5:
     lodash.isequal "^4.5.0"
     lodash.isplainobject "^4.0.6"
     lodash.map "^4.6.0"
-    validator "^7.2.0"
+    validator "^8.0.0"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -4053,9 +4046,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
-validator@^7.2.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-7.2.0.tgz#a63dcbaba51d4350bf8df20988e0d5a54d711791"
+validator@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-8.0.0.tgz#00d6ec230ab5d3353ab1174162a96462b947bdbd"
 
 verror@1.3.6:
   version "1.3.6"
