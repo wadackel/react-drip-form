@@ -1,3 +1,12 @@
+## 0.0.4
+
+> 2017-08-30
+
+* Update devDependencies & dependencies
+
+
+
+
 ## 0.0.3
 
 > 2017-07-28
