@@ -73,8 +73,8 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
-    "dot-wild": "^2.2.4",
-    "drip-form-validator": "^0.0.6",
+    "dot-wild": "^2.2.5",
+    "drip-form-validator": "^0.0.7",
     "immutable-arrays": "^1.0.0",
     "invariant": "^2.2.2",
     "lodash.foreach": "^4.5.0",
